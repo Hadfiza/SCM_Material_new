@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,17 +12,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_material', function (Blueprint $table) {
+        Schema::create('detail_proyek', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('material_id');
-            $table->unsignedBigInteger('pengiriman_id')->nullable();
-            $table->integer('jumlah_order');
-            $table->date('tanggal_order');
-            $table->enum('status_order', ['pending', 'proses', 'selesai', 'batal']);
-            $table->text('keterangan')->nullable();
+            $table->unsignedBigInteger('proyek_id');
+            $table->integer('jumlah_digunakan');
+            $table->date('tanggal_digunakan');
+            $table->text('keterangan');
+            $table->decimal('biaya_penggunaan', 10, 2);
             $table->timestamps();
 
             $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
+            $table->foreign('proyek_id')->references('id')->on('proyek')->onDelete('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_material');
+        Schema::dropIfExists('detail_proyek');
     }
 };

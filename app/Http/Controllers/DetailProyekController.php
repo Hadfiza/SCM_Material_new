@@ -40,6 +40,8 @@ class DetailProyekController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->all());
         $validated = $request->validate([
             'material_id' => 'required',
             'proyek_id' => 'required',
@@ -78,7 +80,7 @@ class DetailProyekController extends Controller
     public function update(Request $request, $id)
     {
          // Validasi input
-         $validated = $request->validate([
+        $validated = $request->validate([
             'material_id' => 'required',
             'proyek_id' => 'required',
             'jumlah_digunakan' => 'required|intiger',
@@ -107,7 +109,7 @@ class DetailProyekController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DetailProyek $detailProyek)
+    public function destroy(DetailProyek $detailProyek, int $id)
     {
     // Cari berdasarkan ID
     $detail_proyek = DetailProyek::findOrFail($id);

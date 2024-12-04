@@ -12,6 +12,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            UserSeeder::class,
+            KontrakSeeder::class,
+            PemasokSeeder::class,
+            MaterialSeeder::class,
+            OrderMaterialSeeder::class,
+            PengirimanSeeder::class
+        ]);
+
         // Cari pengguna berdasarkan email
         $user = User::where('email', 'admin@gmail.com')->first();
 

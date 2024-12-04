@@ -180,7 +180,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="">
+            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="{{ url('/logout') }}">
             <i class="bi bi-door-closed pe-2"></i> <span>Sign Out</span>
             </a>
           </li>
