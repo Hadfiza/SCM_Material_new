@@ -155,17 +155,17 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('pengiriman*') ? 'active' : '' }} ps-4" href="#">
+            <a class="nav-link {{ Request::is('pengiriman*') ? 'active' : '' }} ps-4" href="{{ route('admin.pengiriman') }}">
               <i class="bi bi-truck pe-2"></i><span>Pengiriman</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="#">
+            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="">
               <i class="bi bi-box-seam pe-2"></i> <span>Material</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('pemasok*') ? 'active' : '' }} ps-4" href="#">
+            <a class="nav-link {{ Request::is('pemasok*') ? 'active' : '' }} ps-4" href="">
               <i class="bi bi-people pe-2"></i> <span>Pemasok</span>
             </a>
           </li>
@@ -180,7 +180,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="{{ url('/logout') }}">
+            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="">
             <i class="bi bi-door-closed pe-2"></i> <span>Sign Out</span>
             </a>
           </li>
@@ -314,11 +314,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
