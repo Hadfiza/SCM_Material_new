@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Material')
@@ -28,12 +27,12 @@
                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
                     <div class="card shadow" data-aos="zoom-in" data-aos-delay="200">
                         <div class="card-header bg-white">
-                            <h6 class="card-title mt-2">Proyek : <span class="text">{{ $item->nama_proyek }}</span></h6>
+                            <h6 class="card-title mt-2">Proyek : <span class="text" style="color: #cb8742;">{{ $item->nama_proyek }}</span></h6>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">Lokasi : <span>{{ $item->lokasi }}</span></p>
-                            <p class="card-text">Status : <span>{{ $item->status }}</span></p>
-                            <p class="card-text">Stok : <span>{{ $item->stok }}</span></p>
+                            <p class="card-text">Lokasi : <span style="color: #cb8742;">{{ $item->lokasi }}</span></p>
+                            <p class="card-text">Status : <span style="color: #cb8742;">{{ $item->status }}</span></p>
+                            <p class="card-text">Stok : <span style="color: #cb8742;">{{ $item->stok }}</span></p>
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="d-flex flex-row justify-content-start gap-2">
                                     <form action="{{ route('admin.proyek.destroy', $item->id) }}" method="POST" style="display:inline;">
