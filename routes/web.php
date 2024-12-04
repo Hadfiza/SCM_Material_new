@@ -8,6 +8,8 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\DetailProyekController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\OrderMaterialController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -96,8 +98,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         'update' => 'admin.detail_proyek.update',
         'destroy' => 'admin.detail_proyek.destroy'
     ]);
-
-
 });
 
 
@@ -106,11 +106,11 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     // =============================================
     // =           Route Pengiriman                =
     // =============================================
-    
+
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/pengiriman', [PengirimanController::class, 'index'])->name('admin.pengiriman');
     Route::get('/admin/pengiriman/create', [PengirimanController::class, 'create'])->name('admin.pengiriman.create');
-    Route::post('admin/pengiriman/store', [PengirimanController::class,'store'])->name('admin.pengiriman.store');
+    Route::post('admin/pengiriman/store', [PengirimanController::class, 'store'])->name('admin.pengiriman.store');
     Route::get('/admin/pengiriman/{id}/edit', [PengirimanController::class, 'edit'])->name('admin.pengiriman.edit');
     Route::put('/admin/pengiriman/{id}', [PengirimanController::class, 'update'])->name('admin.pengiriman.update');
     Route::delete('/admin/pengiriman/{id}', [PengirimanController::class, 'destroy'])->name('admin.pengiriman.destroy');
@@ -122,7 +122,7 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/proyek', [ProyekController::class, 'index'])->name('admin.proyek');
     Route::get('/admin/proyek/create', [ProyekController::class, 'create'])->name('admin.proyek.create');
-    Route::post('admin/proyek/store', [ProyekController::class,'store'])->name('admin.proyek.store');
+    Route::post('admin/proyek/store', [ProyekController::class, 'store'])->name('admin.proyek.store');
     Route::get('/admin/proyek/{id}/edit', [ProyekController::class, 'edit'])->name('admin.proyek.edit');
     Route::put('/admin/proyek/{id}', [ProyekController::class, 'update'])->name('admin.proyek.update');
     Route::delete('/admin/proyek/{id}', [ProyekController::class, 'destroy'])->name('admin.proyek.destroy');
@@ -135,15 +135,40 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/detail_proyek', [DetailProyekController::class, 'index'])->name('admin.detail_proyek');
     Route::get('/admin/detail_proyek/create', [DetailProyekController::class, 'create'])->name('admin.detail_proyek.create');
-    Route::post('admin/detail_proyek/store', [DetailProyekController::class,'store'])->name('admin.detail_proyek.store');
+    Route::post('admin/detail_proyek/store', [DetailProyekController::class, 'store'])->name('admin.detail_proyek.store');
     Route::get('/admin/detail_proyek/{id}/edit', [DetailProyekController::class, 'edit'])->name('admin.detail_proyek.edit');
     Route::put('/admin/detail_proyek/{id}', [DetailProyekController::class, 'update'])->name('admin.detail_proyek.update');
     Route::delete('/admin/detail_proyek/{id}', [DetailProyekController::class, 'destroy'])->name('admin.detail_proyek.destroy');
-});
 
     // =============================================
-    // =                Route USER                 =
+    // =           Route Material                  =
     // =============================================
+
+    Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/material', [MaterialController::class, 'index'])->name('admin.material');
+    Route::get('/admin/material/create', [MaterialController::class, 'create'])->name('admin.material.create');
+    Route::post('admin/material/store', [MaterialController::class, 'store'])->name('admin.material.store');
+    Route::get('/admin/material/{id}/edit', [MaterialController::class, 'edit'])->name('admin.material.edit');
+    Route::put('/admin/material/{id}', [MaterialController::class, 'update'])->name('admin.material.update');
+    Route::delete('/admin/material/{id}', [MaterialController::class, 'destroy'])->name('admin.material.destroy');
+
+    // =============================================
+    // =           Route Order Material            =
+    // =============================================
+
+    Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/order', [OrderMaterialController::class, 'index'])->name('admin.order');
+    Route::get('/admin/order/create', [OrderMaterialController::class, 'create'])->name('admin.order.create');
+    Route::post('admin/order/store', [OrderMaterialController::class, 'store'])->name('admin.order.store');
+    Route::get('/admin/order/{id}/edit', [OrderMaterialController::class, 'edit'])->name('admin.order.edit');
+    Route::put('/admin/order/{id}', [OrderMaterialController::class, 'update'])->name('admin.order.update');
+    Route::delete('/admin/order/{id}', [OrderMaterialController::class, 'destroy'])->name('admin.order.destroy');
+});
+
+
+// =============================================
+// =                Route USER                 =
+// =============================================
 
 Route::middleware('auth')->group(function () {
     Route::get('/pengiriman', [PengirimanController::class, 'indexForUser'])->name('pengiriman.index');

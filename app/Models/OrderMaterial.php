@@ -12,7 +12,7 @@ class OrderMaterial extends Model
     protected $table = 'order_material'; // Nama tabel di database
 
     protected $fillable = [
-        'id_material',
+        'material_id',
         'pengiriman_id',
         'jumlah_order',
         'tanggal_order',

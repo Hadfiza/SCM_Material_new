@@ -12,8 +12,11 @@ class Material extends Model
     protected $table = 'material'; // Nama tabel di database
 
     protected $fillable = [
-        'nama_material', // Tambahkan kolom yang ada di tabel material Anda
-        'keterangan',
+        'nama_material',
+        'stok',
+        'harga_total',
+        'jenis_material',
+        'pemasok_id'
     ];
 
     // Relasi ke tabel Pengiriman

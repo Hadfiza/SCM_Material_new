@@ -150,7 +150,7 @@
       <div id="sidebar" class="sidebar collapsed position-fixed min-vh-100 mt-5 d-none d-sm-block d-md-block d-lg-block d-xl-block">
         <ul class="nav flex-column pt-3 text-white mt-3">
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('/') ? 'active' : '' }} ps-4 text-white " href="{{ url('/') }}">
+            <a class="nav-link {{ Request::is('/') ? 'active' : '' }} ps-4 text-white " href="{{ route('admin.dashboard') }}">
               <i class="bi bi-house-fill pe-2"></i> <span>Dashboard</span>
             </a>
           </li>
@@ -160,7 +160,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="#">
+            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="{{ route('admin.material') }}">
               <i class="bi bi-box-seam pe-2"></i> <span>Material</span>
             </a>
           </li>
@@ -180,7 +180,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="">
+            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="{{ url('/logout') }}">
             <i class="bi bi-door-closed pe-2"></i> <span>Sign Out</span>
             </a>
           </li>
@@ -218,7 +218,7 @@
 
             <!-- Dropdown Material -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('admin.material') }}">
                 <i class="bi bi-box-seam pe-2"></i> Material
               </a>
             </li>

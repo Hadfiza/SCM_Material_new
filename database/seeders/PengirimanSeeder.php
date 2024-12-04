@@ -10,13 +10,24 @@ class PengirimanSeeder extends Seeder
     public function run()
     {
         DB::table('pengiriman')->insert([
-            'material_id' => 1, // Pastikan ID material sudah ada
-            'tanggal_kirim' => '2024-11-25',
-            'tanggal_selesai' => '2024-11-28',
-            'status_pengiriman' => 'proses',
-            'order_id' => 1, // Pastikan ID order sudah ada
-            'created_at' => now(),
-            'updated_at' => now(),
+            [
+                'material_id' => 1, // Pastikan ID material sudah ada
+                'tanggal_kirim' => '2024-11-25',
+                'tanggal_selesai' => '2024-11-28',
+                'status_pengiriman' => 'selesai',
+                'order_id' => 3, // Pastikan ID order sudah ada
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'material_id' => 2, // Pastikan ID material sudah ada
+                'tanggal_kirim' => '2024-12-25',
+                'tanggal_selesai' => '2024-12-28',
+                'status_pengiriman' => 'proses',
+                'order_id' => 1, // Pastikan ID order sudah ada
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
