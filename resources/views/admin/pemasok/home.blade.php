@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Pemasok')
 
 @section('content')
@@ -21,20 +20,20 @@
     <div class="bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-start space-x-8 border-b-2 border-gray-200">
-                <a href="#" class="py-4 px-1 border-b-2 border-black font-medium text-gray-900">Pemasok</a>
-                <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">Kontrakt</a>
+                <a href="{{ route('admin.pemasok') }}" class="py-4 px-1 border-b-2 border-black font-medium text-gray-900">Pemasok</a>
+                <a href="{{ route('admin.kontrak.home') }}" class="py-4 px-1 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">Kontrakt</a>
             </div>
         </div>
     </div>
     <div class="container mx-auto py-12">
 
         <!-- Tombol untuk menambahkan pemasok -->
-        <div class="mb-6 flex justify-between items-center">
+        {{-- <div class="mb-6 flex justify-between items-center">
             <h1 class="text-3xl font-bold text-gray-800">Daftar Pemasok</h1>
             <a href="{{ route('admin.pemasok.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg transition duration-300">
                 <i class="fas fa-plus mr-2"></i>Tambah Pemasok
             </a>
-        </div>
+        </div> --}}
 
         <!-- Daftar Pemasok -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -51,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
-                    @foreach ($pemasoks as $pemasok)
+                    @foreach ($pemasok as $pemasok)
                         <tr class="border-b hover:bg-gray-100 transition duration-300">
                             <td class="py-3 px-4">{{ $pemasok->id }}</td>
                             <td class="py-3 px-4">{{ $pemasok->nama_pemasok }}</td>
@@ -59,7 +58,7 @@
                             <td class="py-3 px-4">{{ $pemasok->kontak }}</td>
                             <td class="py-3 px-4">{{ $pemasok->kontrak_id }}</td>
                             <td class="py-3 px-4">{{ $pemasok->rating_pemasok }}</td>
-                            <td class="py-3 px-4 flex space-x-2">
+                            {{-- <td class="py-3 px-4 flex space-x-2">
                                 <!-- Aksi Edit dan Hapus -->
                                 <a href="{{ route('admin.pemasok.edit', $pemasok->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-sm shadow-md transition duration-300">
                                     <i class="fas fa-edit"></i> Edit
@@ -71,7 +70,7 @@
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
                                 </form>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

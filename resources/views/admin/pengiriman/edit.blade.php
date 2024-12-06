@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Edit Pengiriman')
 @section('navbar', 'Edit Pengiriman')
 

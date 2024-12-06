@@ -36,10 +36,7 @@
                     <input type="text" name="lokasi" id="lokasi" class="form-control" required>
                 </div>
 
-                <div class="mb-3">
-                    <label for="stok" class="form-label">Stok</label><br>
-                    <input type="number" name="stok" id="stok" class="form-control" required>
-                </div>
+    
                 <div class="mb-3">
                     <input type="submit" value="Submit" class="btn btn-primary form-control" name="submit">
                 </div>

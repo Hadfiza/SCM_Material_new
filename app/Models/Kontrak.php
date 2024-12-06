@@ -18,7 +18,7 @@ class Kontrak extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'bukti_kontrak',
-        'user_id', // Pastikan ini ada untuk relasi ke User (jika relasi ke pengguna disiapkan)
+        'user_id', // Kolom yang mereferensikan user
     ];
 
     // Relasi dengan model Pemasok (hasMany)

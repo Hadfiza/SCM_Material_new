@@ -16,7 +16,11 @@ return new class extends Migration
         $table->string('nama_proyek', 255);
         $table->enum('status', ['aktif', 'selesai', 'tertunda']);
         $table->string('lokasi', 255);
+        $table->unsignedBigInteger('material_id'); // Relasi ke material
         $table->timestamps();
+
+        $table->foreign('material_id')->references('id')->on('material_proyek')->onDelete('cascade');
+
     });
 }
 

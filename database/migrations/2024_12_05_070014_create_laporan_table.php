@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -10,20 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('detail_proyek', function (Blueprint $table) {
+        Schema::create('laporan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('material_id');
+            $table->date('tanggal_laporan');
+            $table->string('file_path', 255);
             $table->unsignedBigInteger('proyek_id');
-            $table->integer('jumlah_digunakan');
-            $table->date('tanggal_digunakan');
-            $table->text('keterangan');
-            $table->decimal('biaya_penggunaan', 10, 2);
+            $table->unsignedBigInteger('detail_proyek_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
             $table->foreign('proyek_id')->references('id')->on('proyek')->onDelete('cascade');
+            $table->foreign('detail_proyek_id')->references('id')->on('detail_proyek')->onDelete('cascade');
         });
     }
 
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_proyek');
+        Schema::dropIfExists('laporan');
     }
 };

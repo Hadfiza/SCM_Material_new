@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Daftar Material')
 
 @section('content')
@@ -43,6 +42,7 @@
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Stok</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Harga Total</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Jenis Material</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Pemasok</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
@@ -52,8 +52,9 @@
                                 <td class="px-6 py-4 text-sm">{{ $material->id }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->nama_material }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->stok }}</td>
-                                <td class="px-6 py-4 text-sm">{{ $material->harga_total }}</td>
+                                <td class="px-6 py-4 text-sm">{{ $material->harga_satuan }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->jenis_material }}</td>
+                                <td class="px-6 py-4 text-sm">{{ $material->pemasok->nama_pemasok }}</td>
                                 <td class="px-6 py-4 text-sm">
                                     <!-- Edit and Delete Actions -->
                                     <a href="{{ route('admin.material.edit', $material->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-300 mr-2">

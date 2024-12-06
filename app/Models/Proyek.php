@@ -25,6 +25,11 @@ class Proyek extends Model
 
     public function detailProyek()
     {
-        return $this->hasMany(DetailProyek::class, 'proyek_id');
+        return $this->hasMany(DetailProyek::class, 'detail_proyek_id');
+    }
+
+    public function MaterialProyek()
+    {
+        return $this->belongsTo(MaterialProyek::class, 'material_id');
     }
 }

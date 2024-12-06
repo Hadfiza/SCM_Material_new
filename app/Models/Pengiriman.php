@@ -19,15 +19,15 @@ class Pengiriman extends Model
     ];
 
     // Relasi ke tabel Material
-    public function material()
+    public function MaterialProyek()
     {
-        return $this->belongsTo(Material::class, 'material_id');
+        return $this->hasMany(MaterialProyek::class, 'material_id');
     }
 
     // Relasi ke tabel OrderMaterial
     public function orderMaterials()
     {
-        return $this->hasMany(OrderMaterial::class, 'pengiriman_id');
+        return $this->belongsTo(OrderMaterial::class, 'pengiriman_id');
     }
     // app/Models/Pengiriman.php
 

@@ -28,11 +28,12 @@ class Laporan extends Model
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
+
     /**
      * Relasi dengan Detail Proyek
      * Menghubungkan laporan dengan detail proyek terkait (jika ada)
      */
-    public function detailProyek()
+    public function DetailProyek()
     {
         return $this->belongsTo(DetailProyek::class, 'detail_proyek_id');
     }

@@ -22,6 +22,23 @@ class Pemasok extends Model
     // Relasi ke Kontrak
     public function kontrak()
     {
-        return $this->belongsTo(Kontrak::class, 'kontrak_id');
+        return $this->belongsTo(Kontrak::class, 'kontrak_id','id');
     }
+
+    public function MaterialPemasok()
+    {
+        return $this->hasMany(MaterialPemasok::class, 'material_id');
+    }
+
+    public function OrderMaterial()
+    {
+        return $this->hasMany(OrderMaterial::class, 'order_id');
+    }
+
+    // Model Pemasok
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

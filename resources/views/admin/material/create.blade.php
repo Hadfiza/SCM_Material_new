@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Tambah Material')
 
 @section('content')
@@ -38,8 +37,8 @@
                     </div>
 
                     <div class="mb-6">
-                        <label for="harga_total" class="block text-gray-700 font-medium mb-2">Harga Total:</label>
-                        <input type="number" name="harga_total"
+                        <label for="harga_satuan" class="block text-gray-700 font-medium mb-2">Harga Satuan:</label>
+                        <input type="number" name="harga_satuan"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required>
                     </div>

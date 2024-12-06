@@ -8,7 +8,7 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\DetailProyekController;
-use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MaterialPemasokController;
 use App\Http\Controllers\OrderMaterialController;
 
 // Halaman utama
@@ -71,15 +71,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         'destroy' => 'admin.pengiriman.destroy'
     ]);
 
-    // Rute kontrak untuk admin (CRUD lengkap)
-    Route::resource('kontrak', KontrakController::class)->names([
-        'index' => 'kontrak.index',
-        'create' => 'kontrak.create',
-        'store' => 'kontrak.store',
-        'edit' => 'kontrak.edit',
-        'update' => 'kontrak.update',
-        'destroy' => 'kontrak.destroy',
-    ]);
+    // // Rute kontrak untuk admin (CRUD lengkap)
+    // Route::resource('kontrak', KontrakController::class)->names([
+    //     'index' => 'admi.kontrak.index',
+    //     'create' => 'admin.kontrak.create',
+    //     'store' => 'admin.kontrak.store',
+    //     'edit' => 'admin.kontrak.edit',
+    //     'update' => 'admin.kontrak.update',
+    //     'destroy' => 'admin.kontrak.destroy',
+    // ]);
 
     Route::resource('proyek', ProyekController::class)->names([
         'index' => 'admin.proyek.index', // Menetapkan nama rute untuk index
@@ -145,12 +145,12 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     // =============================================
 
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/material', [MaterialController::class, 'index'])->name('admin.material');
-    Route::get('/admin/material/create', [MaterialController::class, 'create'])->name('admin.material.create');
-    Route::post('admin/material/store', [MaterialController::class, 'store'])->name('admin.material.store');
-    Route::get('/admin/material/{id}/edit', [MaterialController::class, 'edit'])->name('admin.material.edit');
-    Route::put('/admin/material/{id}', [MaterialController::class, 'update'])->name('admin.material.update');
-    Route::delete('/admin/material/{id}', [MaterialController::class, 'destroy'])->name('admin.material.destroy');
+    Route::get('/admin/material', [MaterialPemasokController::class, 'index'])->name('admin.material');
+    Route::get('/admin/material/create', [MaterialPemasokController::class, 'create'])->name('admin.material.create');
+    Route::post('admin/material/store', [MaterialPemasokController::class, 'store'])->name('admin.material.store');
+    Route::get('/admin/material/{id}/edit', [MaterialPemasokController::class, 'edit'])->name('admin.material.edit');
+    Route::put('/admin/material/{id}', [MaterialPemasokController::class, 'update'])->name('admin.material.update');
+    Route::delete('/admin/material/{id}', [MaterialPemasokController::class, 'destroy'])->name('admin.material.destroy');
 
     // =============================================
     // =           Route Order Material            =
@@ -163,6 +163,27 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::get('/admin/order/{id}/edit', [OrderMaterialController::class, 'edit'])->name('admin.order.edit');
     Route::put('/admin/order/{id}', [OrderMaterialController::class, 'update'])->name('admin.order.update');
     Route::delete('/admin/order/{id}', [OrderMaterialController::class, 'destroy'])->name('admin.order.destroy');
+
+    // =============================================
+    // =            Route Pemasok Admin            =
+    // =============================================
+
+    Route::get('/admin/pemasok', [PemasokController::class, 'indexForAdmin'])->name('admin.pemasok');
+
+    // =============================================
+    // =             Route Pemasok                 =
+    // =============================================
+
+    Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/kontrak', [KontrakController::class, 'index'])->name('admin.kontrak.home');
+    Route::get('/admin/kontrak/create', [KontrakController::class, 'create'])->name('admin.kontrak.create');
+    Route::post('admin/kontrak/store', [KontrakController::class, 'store'])->name('admin.kontrak.store');
+    Route::get('/admin/kontrak/{id}/edit', [KontrakController::class, 'edit'])->name('admin.kontrak.edit');
+    Route::put('/admin/kontrak/{id}', [KontrakController::class, 'update'])->name('admin.kontrak.update');
+    Route::delete('/admin/kontrak/{id}', [KontrakController::class, 'destroy'])->name('admin.kontrak.destroy');
+
+    
+    
 });
 
 

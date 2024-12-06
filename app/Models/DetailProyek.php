@@ -26,8 +26,13 @@ class DetailProyek extends Model
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function material()
+    public function MaterialProyek()
     {
-        return $this->belongsTo(Material::class, 'material_id');
+        return $this->belongsTo(MaterialProyek::class, 'material_id');
+    }
+
+    public function Laporan()
+    {
+        return $this->hasMany(Laporan::class, 'laporan_id');
     }
 }

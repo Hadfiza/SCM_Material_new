@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailProyek;
-use App\Models\Material;
+use App\Models\MaterialPemasok;
 use App\Models\Pemasok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MaterialController extends Controller
+class MaterialPemasokController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $materials = Material::all();
+        $materials = MaterialPemasok::all();
         return view('admin.material.home', compact('materials'));
     }
 
@@ -37,13 +37,13 @@ class MaterialController extends Controller
         $validated = $request->validate([
             'nama_material' => 'required|string',
             'stok' => 'required|integer',
-            'harga_total' => 'required',
+            'harga_satuan' => 'required',
             'jenis_material' => 'required|string',
             'pemasok_id' => 'required|integer',
             'detail_proyek' => 'nullable'
         ]);
 
-        Material::create($request->all());
+        MaterialPemasok::create($request->all());
 
         return redirect()->route('admin.material')->with('success', 'Material berhasil ditambahkan');
     }
@@ -51,7 +51,7 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Material $material)
+    public function show(MaterialPemasok $material)
     {
         //
     }
@@ -59,29 +59,29 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Material $material, int $id)
+    public function edit(MaterialPemasok $material, int $id)
     {
         //
-        $material = Material::find($id);
+        $material = MaterialPemasok::find($id);
         return view('admin.material.edit', compact('material'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id,  Material $material)
+    public function update(Request $request, int $id,  MaterialPemasok $material)
     {
         //
         $validated = $request->validate([
             'nama_material' => 'required|string',
             'stok' => 'required|integer',
-            'harga_total' => 'required',
+            'harga_satuan' => 'required',
             'jenis_material' => 'required|string',
             'pemasok_id' => 'required|integer',
             'detail_proyek' => 'nullable'
         ]);
 
-        $material = Material::findOrFail($id);
+        $material = MaterialPemasok::findOrFail($id);
         $material->update($validated);
 
         return redirect()->route('admin.material')->with('success', 'Material berhasil diupdate');
@@ -90,10 +90,10 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Material $material, int $id)
+    public function destroy(MaterialPemasok $material, int $id)
     {
         // Cari berdasarkan ID
-        $material = Material::findOrFail($id);
+        $material = MaterialPemasok::findOrFail($id);
 
         // Hapus pengiriman
         $material->delete();

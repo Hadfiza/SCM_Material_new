@@ -16,6 +16,13 @@ class PemasokController extends Controller
         return view('user.pemasok.index', compact('pemasok'));
     }
 
+    public function indexForAdmin()
+    {
+        // Menampilkan semua pemasok
+        $pemasok = Pemasok::with('kontrak')->get();
+        return view('admin.pemasok.home', compact('pemasok'));
+    }
+
     // Menampilkan form untuk menambahkan pemasok
     public function create()
     {

@@ -15,7 +15,6 @@ class OrderMaterialSeeder extends Seeder
                 'pengiriman_id' => NULL,
                 'jumlah_order' => 20,
                 'tanggal_order' => '2024-12-10',
-                'status_order' => 'proses',
                 'keterangan' => 'Keterangan 1',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -25,7 +24,6 @@ class OrderMaterialSeeder extends Seeder
                 'pengiriman_id' => NULL,
                 'jumlah_order' => 30,
                 'tanggal_order' => '2024-12-13',
-                'status_order' => 'pending',
                 'keterangan' => 'Keterangan 2',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -35,7 +33,6 @@ class OrderMaterialSeeder extends Seeder
                 'pengiriman_id' => NULL,
                 'jumlah_order' => 25,
                 'tanggal_order' => '2024-12-11',
-                'status_order' => 'selesai',
                 'keterangan' => 'Keterangan 3',
                 'created_at' => now(),
                 'updated_at' => now()

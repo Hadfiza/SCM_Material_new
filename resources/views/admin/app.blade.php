@@ -130,7 +130,7 @@
               <span><i class="bi bi-list fs-3"></i></span>
             </button>
           <!-- Brand -->
-          <a class="navbar-brand ps-2 fs-3 fw-bold text-dark" href="#">MaterialFlow</a>
+          <a class="navbar-brand ps-2 fs-3 fw-bold text-dark" href="">MaterialFlow</a>
         </div>
         <div class="mb-2 mb-md-0 me-4 d-flex align-items-center">
           <a href="{{route('profile.show')}}" class="text-dark text-decoration-none d-flex align-items-center">
@@ -150,22 +150,22 @@
       <div id="sidebar" class="sidebar collapsed position-fixed min-vh-100 mt-5 d-none d-sm-block d-md-block d-lg-block d-xl-block">
         <ul class="nav flex-column pt-3 text-white mt-3">
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('/') ? 'active' : '' }} ps-4 text-white " href="{{ url('/') }}">
+            <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }} ps-4 text-white " href="{{ route('admin.dashboard') }}">
               <i class="bi bi-house-fill pe-2"></i> <span>Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('pengiriman*') ? 'active' : '' }} ps-4" href="{{ route('admin.pengiriman') }}">
+            <a class="nav-link {{ Request::is('pengiriman*') ? 'active' : '' }} ps-4" href="#">
               <i class="bi bi-truck pe-2"></i><span>Pengiriman</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="">
+            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="{{ route('admin.material') }}">
               <i class="bi bi-box-seam pe-2"></i> <span>Material</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('pemasok*') ? 'active' : '' }} ps-4" href="">
+            <a class="nav-link {{ Request::is('pemasok*') ? 'active' : '' }} ps-4" href="{{ route('admin.pemasok') }}">
               <i class="bi bi-people pe-2"></i> <span>Pemasok</span>
             </a>
           </li>
@@ -180,7 +180,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="{{ route('logout') }}">
+            <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="{{ url('logout') }}">
             <i class="bi bi-door-closed pe-2"></i> <span>Sign Out</span>
             </a>
           </li>
@@ -218,7 +218,7 @@
 
             <!-- Dropdown Material -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('admin.material') }}">
                 <i class="bi bi-box-seam pe-2"></i> Material
               </a>
             </li>
@@ -284,7 +284,6 @@
         });
     </script>
 
-
       <!-- Main Content -->
       <main id="mainContent" class="main-content mb-3">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 shadow bg-white">
@@ -340,3 +339,11 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+

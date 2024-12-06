@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Kontrak')
 
 @section('content')
@@ -44,6 +43,12 @@
                 <input type="file" name="bukti_kontrak" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
             </div>
             
+            <!-- Inputan untuk user_id -->
+            <div class="mb-4">
+                <label for="user_id" class="block text-gray-700 font-bold mb-2">User ID:</label>
+                <input type="number" name="user_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="Masukkan User ID" required>
+            </div>
+
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg transition duration-300">
                 Tambah Kontrak
             </button>

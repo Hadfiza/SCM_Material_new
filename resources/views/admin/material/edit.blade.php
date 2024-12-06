@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Edit Material')
 
 @section('content')
@@ -42,7 +41,7 @@
                         <label for="harga_total" class="block text-gray-700 font-medium mb-2">Harga Total:</label>
                         <input type="number" name="harga_total"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value="{{ $material->harga_total }}" required>
+                            value="{{ $material->harga_satuan }}" required>
                     </div>
 
                     <div class="mb-6">

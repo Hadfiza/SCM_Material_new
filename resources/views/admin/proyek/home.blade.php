@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('admin.app')
 @section('title', 'Material')
 @section('custom-css')
   <link rel="stylesheet" href="{{ asset('css/index.css') }}">

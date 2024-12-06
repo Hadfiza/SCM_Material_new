@@ -1,5 +1,4 @@
-@extends('admin.dashboard')
-
+@extends('admin.app')
 @section('title', 'Daftar Order Material')
 
 @section('content')
@@ -40,7 +39,6 @@
                         <th class="py-3 px-6 text-left">ID Material</th>
                         <th class="py-3 px-6 text-left">Jumlah Order</th>
                         <th class="py-3 px-6 text-left">Tanggal Order</th>
-                        <th class="py-3 px-6 text-left">Status Order</th>
                         <th class="py-3 px-6 text-left">Keterangan</th>
                         <th class="py-3 px-6 text-center">Aksi</th>
                     </tr>
@@ -49,10 +47,9 @@
                     @foreach ($orders as $order)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                             <td class="py-3 px-6 text-left whitespace-nowrap">{{ $order->id }}</td>
-                            <td class="py-3 px-6 text-left">{{ $order->id_material }}</td>
+                            <td class="py-3 px-6 text-left">{{ $order->material_id }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->jumlah_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->tanggal_order }}</td>
-                            <td class="py-3 px-6 text-left">{{ $order->status_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->keterangan }}</td>
                             <td class="py-3 px-6 text-center">
                                 <!-- Edit and Delete Actions -->

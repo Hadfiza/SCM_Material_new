@@ -21,14 +21,19 @@ class OrderMaterial extends Model
     ];
 
     // Relasi ke tabel Material
-    public function material()
+    public function MaterialPemasok()
     {
-        return $this->belongsTo(Material::class, 'id_material');
+        return $this->belongsTo(MaterialPemasok::class, 'material_id');
     }
 
     // Relasi ke tabel Pengiriman
     public function pengiriman()
     {
-        return $this->belongsTo(Pengiriman::class, 'pengiriman_id');
+        return $this->hasMany(Pengiriman::class, 'pengiriman_id');
+    }
+
+    public function Pemasok()
+    {
+        return $this->belongsTo(Pemasok::class, 'pemasok_id');
     }
 }

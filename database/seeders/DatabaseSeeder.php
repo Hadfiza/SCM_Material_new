@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KontrakSeeder::class,
             PemasokSeeder::class,
-            MaterialSeeder::class,
+            MaterialPemasokSeeder::class,
             OrderMaterialSeeder::class,
             PengirimanSeeder::class
         ]);
