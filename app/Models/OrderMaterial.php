@@ -32,7 +32,7 @@ class OrderMaterial extends Model
         return $this->hasMany(Pengiriman::class, 'order_id');
     }
 
-    public function Pemasok()
+    public function pemasok()
     {
         return $this->belongsTo(Pemasok::class, 'pemasok_id');
     }

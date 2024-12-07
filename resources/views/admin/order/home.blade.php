@@ -37,7 +37,6 @@
                     <tr class="border-b border-gray-300">
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">ID Material</th>
-
                         <th class="py-3 px-6 text-left">Jumlah Order</th>
                         <th class="py-3 px-6 text-left">Tanggal Order</th>
                         <th class="py-3 px-6 text-left">Keterangan</th>
@@ -48,7 +47,11 @@
                     @foreach ($orders as $order)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                             <td class="py-3 px-6 text-left whitespace-nowrap">{{ $order->id }}</td>
-                            <td class="py-3 px-6 text-left">{{ $order->material_id }}</td>
+                            <!-- Menampilkan hanya ID Material -->
+                            <td class="py-3 px-6 text-left">
+                                {{ $order->material_id ?? 'Material Tidak Ditemukan' }}
+                            </td>
+
                             <td class="py-3 px-6 text-left">{{ $order->jumlah_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->tanggal_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->keterangan }}</td>

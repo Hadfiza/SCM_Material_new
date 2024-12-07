@@ -28,10 +28,10 @@ class MaterialPemasok extends Model
     // Relasi ke tabel OrderMaterial
     public function orderMaterials()
     {
-        return $this->hasMany(OrderMaterial::class, 'material_id');
+        return $this->hasMany(OrderMaterial::class, 'material_id','id');
     }
 
-    public function Pemasok()
+    public function pemasok()
     {
         return $this->belongsTo(Pemasok::class, 'pemasok_id');
     }

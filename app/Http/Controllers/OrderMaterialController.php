@@ -13,7 +13,6 @@ class OrderMaterialController extends Controller
      */
     public function index()
     {
-        //
         $orders = OrderMaterial::all();
         return view('admin.order.home', compact('orders'));
     }
@@ -23,44 +22,52 @@ class OrderMaterialController extends Controller
      */
     public function create()
     {
-        $material = MaterialPemasok::all(); // Ambil semua material
-        return view('admin.order.create', compact('material'));
+        // Ambil data material dan pemasok yang terkait
+        $materials = MaterialPemasok::with('pemasok')->get();
+        return view('admin.order.create', compact('materials'));
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
+    public function store(Request $request)
+    {
+        // Validasi input yang diterima
+        $validated = $request->validate([
+            'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material ada di tabel material_pemasok
+            'jumlah_order' => 'required|integer|min:1',  // Pastikan jumlah_order lebih dari 0
+            'tanggal_order' => 'required|date',  // Pastikan tanggal valid
+            'keterangan' => 'required|string',  // Pastikan keterangan valid
+        ]);
 
-     public function store(Request $request)
-     {
-         $validated = $request->validate([
-             'material_id' => 'required|integer|exists:material_pemasok,id',
-             'jumlah_order' => 'required|integer|min:1',
-             'tanggal_order' => 'required|date',
-             'keterangan' => 'required|string',
-         ]);
+        // Ambil material berdasarkan ID yang dipilih
+        $material = MaterialPemasok::find($validated['material_id']);
 
-         // Ambil material berdasarkan ID
-         $material = MaterialPemasok::find($validated['material_id']);
+        if (!$material) {
+            return redirect()->back()->withErrors(['material' => 'Material tidak ditemukan.']);
+        }
 
-         // Periksa stok material
-         if ($material->stok < $validated['jumlah_order']) {
-             return redirect()->back()->withErrors(['stok' => 'Stok material tidak mencukupi.']);
-         }
+        // Periksa stok material
+        if ($material->stok < $validated['jumlah_order']) {
+            return redirect()->back()->withErrors(['stok' => 'Stok material tidak mencukupi.']);
+        }
 
-         // Kurangi stok material
-         $material->stok -= $validated['jumlah_order'];
-         $material->save();
+        // Kurangi stok material sesuai jumlah order
+        $material->stok -= $validated['jumlah_order'];
+        $material->save();
 
-         // Simpan order
-         OrderMaterial::create($validated);
+        // Simpan data order material ke database
+        OrderMaterial::create([
+            'material_id' => $material->id,
+            'jumlah_order' => $validated['jumlah_order'],
+            'tanggal_order' => $validated['tanggal_order'],
+            'keterangan' => $validated['keterangan'],
+            'nama_material' => $material->nama_material,  // Simpan nama material
+            'nama_pemasok' => $material->pemasok->nama_pemasok,  // Simpan nama pemasok
+        ]);
 
-         return redirect()->route('admin.order')->with('success', 'Order Material berhasil ditambahkan dan stok material telah diperbarui.');
-     }
-
-
-
+        return redirect()->route('admin.order')->with('success', 'Order Material berhasil ditambahkan dan stok material telah diperbarui.');
+    }
 
 
     /**
@@ -74,53 +81,75 @@ class OrderMaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OrderMaterial $orderMaterial, int $id)
+    public function edit(int $id)
     {
         $order = OrderMaterial::find($id);
-        $material = MaterialPemasok::all(); // Ambil semua data material pemasok
-
-        return view('admin.order.edit', compact('order','material'));
+        $materials = MaterialPemasok::all(); // Ambil semua data material pemasok
+        return view('admin.order.edit', compact('order', 'materials'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id, OrderMaterial $orderMaterial)
+    public function update(Request $request, int $id)
     {
+        // Validasi input
         $validated = $request->validate([
-            'material_id' => 'required|integer',
-            'jumlah_order' => 'required|integer',
-            'tanggal_order' => 'required',
-            'keterangan' => 'required|string'
+            'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material valid
+            'jumlah_order' => 'required|integer|min:1',  // Pastikan jumlah_order lebih dari 0
+            'tanggal_order' => 'required|date',  // Pastikan tanggal valid
+            'keterangan' => 'required|string',  // Pastikan keterangan valid
         ]);
 
         $order = OrderMaterial::find($id);
-        // Update order material
-        $order->update($validated);
+        if (!$order) {
+            return redirect()->back()->withErrors(['order' => 'Order tidak ditemukan.']);
+        }
 
-        return redirect()->route('admin.order')->with('success', 'Order Material berhasil diupdate');
+        $material = MaterialPemasok::find($validated['material_id']);
+
+        if (!$material) {
+            return redirect()->back()->withErrors(['material' => 'Material tidak ditemukan.']);
+        }
+
+        // Update stok material lama (tambahkan kembali stok)
+        $oldMaterial = MaterialPemasok::find($order->material_id);
+        if ($oldMaterial) {
+            $oldMaterial->stok += $order->jumlah_order;
+            $oldMaterial->save();
+        }
+
+        // Periksa stok material baru
+        if ($material->stok < $validated['jumlah_order']) {
+            return redirect()->back()->withErrors(['stok' => 'Stok material tidak mencukupi.']);
+        }
+
+        // Kurangi stok material baru
+        $material->stok -= $validated['jumlah_order'];
+        $material->save();
+
+        // Update data order material
+        $order->update([
+            'material_id' => $material->id,
+            'jumlah_order' => $validated['jumlah_order'],
+            'tanggal_order' => $validated['tanggal_order'],
+            'keterangan' => $validated['keterangan'],
+        ]);
+
+        return redirect()->route('admin.order')->with('success', 'Order Material berhasil diupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OrderMaterial $orderMaterial, int $id)
+    public function destroy($id)
     {
         $order = OrderMaterial::find($id);
-
-        if (!$order) {
-            return redirect()->route('admin.order')->withErrors(['order' => 'Order tidak ditemukan.']);
+        if ($order) {
+            $order->delete();
+            return redirect()->route('admin.order')->with('success', 'Order material berhasil dihapus.');
+        } else {
+            return redirect()->route('admin.order')->with('error', 'Order material tidak ditemukan.');
         }
-
-        // Tambahkan kembali stok material
-        $material = MaterialPemasok::find($order->material_id);
-        if ($material) {
-            $material->stok += $order->jumlah_order;
-            $material->save();
-        }
-
-        $order->delete();
-
-        return redirect()->route('admin.order')->with('success', 'Order Material berhasil dihapus dan stok material telah diperbarui.');
     }
 }

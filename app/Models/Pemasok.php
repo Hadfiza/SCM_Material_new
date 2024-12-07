@@ -25,12 +25,12 @@ class Pemasok extends Model
         return $this->belongsTo(Kontrak::class, 'kontrak_id','id');
     }
 
-    public function MaterialPemasok()
+    public function materialPemasok()
     {
         return $this->hasMany(MaterialPemasok::class, 'material_id');
     }
 
-    public function OrderMaterial()
+    public function orderMaterial()
     {
         return $this->hasMany(OrderMaterial::class, 'order_id');
     }

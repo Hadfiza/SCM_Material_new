@@ -40,7 +40,7 @@
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">ID</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Nama Material</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Stok</th>
-                            <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Harga Total</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Harga Satuan</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Jenis Material</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Pemasok</th>
                             <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">Aksi</th>
@@ -51,7 +51,7 @@
                             <tr class="divide-x divide-gray-200">
                                 <td class="px-6 py-4 text-sm">{{ $material->id }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->nama_material }}</td>
-                                <td class="px-6 py-4 text-sm">{{ $material->stok }}</td>
+                                <td class="px-6 py-4 text-sm">{{ $material->stok }} pcs </td>
                                 <td class="px-6 py-4 text-sm">{{ $material->harga_satuan }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->jenis_material }}</td>
                                 <td class="px-6 py-4 text-sm">{{ $material->pemasok->nama_pemasok }}</td>

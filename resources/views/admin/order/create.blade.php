@@ -17,8 +17,7 @@
         <h3 class="text-2xl font-semibold text-gray-800 mb-6">Tambah Order Material</h3>
 
         <!-- Form untuk menambahkan order material -->
-        <form action="{{ route('admin.order.store') }}" method="POST"
-            class="bg-white p-8 rounded-lg shadow-md">
+        <form action="{{ route('admin.order.store') }}" method="POST" class="bg-white p-8 rounded-lg shadow-md">
             @csrf
 
             <!-- Material -->
@@ -27,8 +26,11 @@
                 <select name="material_id" id="material_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                     <option value="" disabled selected>Pilih Material</option>
-                    @foreach ($material as $material)
-                        <option value="{{ $material->id }}">{{ $material->id }}</option>
+                    @foreach ($materials as $material)
+                        <option value="{{ $material->id }}">
+                            {{ $material->nama_material }} -
+                            {{ $material->pemasok ? $material->pemasok->nama_pemasok : 'Pemasok Tidak Ditemukan' }}
+                        </option>
                     @endforeach
                 </select>
                 @error('material_id')
@@ -40,8 +42,8 @@
             <div class="mb-4">
                 <label for="jumlah_order" class="block text-gray-700 font-bold mb-2">Jumlah Order:</label>
                 <input type="number" name="jumlah_order" id="jumlah_order"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ old('jumlah_order') }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ old('jumlah_order') }}" required>
                 @error('jumlah_order')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -51,8 +53,8 @@
             <div class="mb-4">
                 <label for="tanggal_order" class="block text-gray-700 font-bold mb-2">Tanggal Order:</label>
                 <input type="date" name="tanggal_order" id="tanggal_order"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ old('tanggal_order') }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ old('tanggal_order') }}" required>
                 @error('tanggal_order')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -62,8 +64,8 @@
             <div class="mb-4">
                 <label for="keterangan" class="block text-gray-700 font-bold mb-2">Keterangan:</label>
                 <input type="text" name="keterangan" id="keterangan"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ old('keterangan') }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ old('keterangan') }}" required>
                 @error('keterangan')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -71,10 +73,11 @@
 
             <!-- Tombol Simpan -->
             <button type="submit"
-                class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
                 Tambah Order
             </button>
         </form>
+
     </div>
 </body>
 

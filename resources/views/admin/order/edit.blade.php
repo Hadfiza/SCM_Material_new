@@ -18,21 +18,22 @@
 
         <!-- Form untuk mengedit order material -->
         <form action="{{ route('admin.order.update', $order->id) }}" method="POST"
-            class="bg-white p-8 rounded-lg shadow-md">
+              class="bg-white p-8 rounded-lg shadow-md">
             @csrf
             @method('PUT')
 
             <!-- Material -->
             <div class="mb-4">
                 <label for="material_id" class="block text-gray-700 font-bold mb-2">Material:</label>
-                <select name="material_id" id="material_id" 
+                <select name="material_id" id="material_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                     <option value="" disabled>Pilih Material</option>
-                @foreach ($material as $material) <!-- Menggunakan $materials sesuai dari controller -->
-                    <option value="{{ $material->id }}" {{ $material->id == $order->material_id ? 'selected' : '' }}>
-                        {{ $material->id }} <!-- Menampilkan nama material -->
-                    </option>
-                @endforeach
+                    @foreach ($materials as $material) <!-- Menggunakan $materials sesuai dari controller -->
+                        <option value="{{ $material->id }}" {{ $material->id == $order->material_id ? 'selected' : '' }}>
+                            {{ $material->nama_material }} -
+                            {{ $material->pemasok ? $material->pemasok->nama_pemasok : 'Pemasok Tidak Ditemukan' }}
+                        </option>
+                    @endforeach
                 </select>
                 @error('material_id')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -43,29 +44,29 @@
             <div class="mb-4">
                 <label for="jumlah_order" class="block text-gray-700 font-bold mb-2">Jumlah Order:</label>
                 <input type="number" name="jumlah_order" id="jumlah_order"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ $order->jumlah_order }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ $order->jumlah_order }}" required>
             </div>
 
             <!-- Tanggal Order -->
             <div class="mb-4">
                 <label for="tanggal_order" class="block text-gray-700 font-bold mb-2">Tanggal Order:</label>
                 <input type="date" name="tanggal_order" id="tanggal_order"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ $order->tanggal_order }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ $order->tanggal_order }}" required>
             </div>
 
             <!-- Keterangan -->
             <div class="mb-4">
                 <label for="keterangan" class="block text-gray-700 font-bold mb-2">Keterangan:</label>
                 <input type="text" name="keterangan" id="keterangan"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    value="{{ $order->keterangan }}" required>
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                       value="{{ $order->keterangan }}" required>
             </div>
 
             <!-- Tombol Simpan -->
             <button type="submit"
-                class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
                 Simpan Perubahan
             </button>
         </form>
