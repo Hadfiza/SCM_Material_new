@@ -38,7 +38,7 @@
                         <th class="py-3 px-6 text-left">ID</th>
                         <th class="py-3 px-6 text-left">Nama Material</th>
                         <th class="py-3 px-6 text-left">Nama Pemasok</th>
-
+                        <th class="py-3 px-6 text-left">Harga Satuan</th> <!-- Tambahkan harga_satuan di sini -->
                         <th class="py-3 px-6 text-left">Jumlah Order</th>
                         <th class="py-3 px-6 text-left">Tanggal Order</th>
                         <th class="py-3 px-6 text-left">Keterangan</th>
@@ -56,7 +56,9 @@
                             <td class="py-3 px-6 text-left">
                                 {{ $order->nama_pemasok?? 'Pemasok Tidak Ditemukan' }}
                             </td>
-
+                            <td class="py-3 px-6 text-left">
+                                {{ number_format($order->harga_satuan, 0, ',', '.') }} <!-- Menampilkan harga satuan -->
+                            </td>
                             <td class="py-3 px-6 text-left">{{ $order->jumlah_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->tanggal_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->keterangan }}</td>

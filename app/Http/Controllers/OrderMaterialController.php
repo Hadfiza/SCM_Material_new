@@ -13,9 +13,13 @@ class OrderMaterialController extends Controller
      */
     public function index()
     {
-        $orders = OrderMaterial::all();
+        // Mengambil semua order material beserta relasi material dan pemasoknya
+        $orders = OrderMaterial::with('materialPemasok')->get();
+
         return view('admin.order.home', compact('orders'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,9 +39,10 @@ class OrderMaterialController extends Controller
         // Validasi input yang diterima
         $validated = $request->validate([
             'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material ada di tabel material_pemasok
-            'jumlah_order' => 'required|integer|min:1',  // Pastikan jumlah_order lebih dari 0
-            'tanggal_order' => 'required|date',  // Pastikan tanggal valid
-            'keterangan' => 'required|string',  // Pastikan keterangan valid
+            'jumlah_order' => 'required|integer',
+            'tanggal_order' => 'required|date',
+            'keterangan' => 'nullable|string',
+            'harga_satuan' => 'required|numeric',  // Validasi harga_satuan
         ]);
 
         // Ambil material berdasarkan ID yang dipilih
@@ -64,11 +69,11 @@ class OrderMaterialController extends Controller
             'keterangan' => $validated['keterangan'],
             'nama_material' => $material->nama_material,  // Simpan nama material
             'nama_pemasok' => $material->pemasok->nama_pemasok,  // Simpan nama pemasok
+            'harga_satuan' => $material->harga_satuan,  // Simpan harga satuan
         ]);
 
         return redirect()->route('admin.order')->with('success', 'Order Material berhasil ditambahkan dan stok material telah diperbarui.');
     }
-
 
     /**
      * Display the specified resource.
@@ -98,7 +103,10 @@ class OrderMaterialController extends Controller
             'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material valid
             'jumlah_order' => 'required|integer|min:1',  // Pastikan jumlah_order lebih dari 0
             'tanggal_order' => 'required|date',  // Pastikan tanggal valid
-            'keterangan' => 'required|string',  // Pastikan keterangan valid
+            'keterangan' => 'required|string',
+            'harga_satuan' => 'required|numeric',  // Validasi harga_satuan
+
+            // Pastikan keterangan valid
         ]);
 
         $order = OrderMaterial::find($id);
@@ -136,12 +144,12 @@ class OrderMaterialController extends Controller
             'keterangan' => $validated['keterangan'],
             'nama_material' => $material->nama_material,
             'nama_pemasok' => $material->pemasok->nama_pemasok,
+            'harga_satuan' => $material->harga_satuan, // Update harga satuan
         ]);
-
-
 
         return redirect()->route('admin.order')->with('success', 'Order Material berhasil diupdate.');
     }
+
 
     /**
      * Remove the specified resource from storage.

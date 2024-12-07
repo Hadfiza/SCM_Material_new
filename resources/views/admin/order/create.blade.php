@@ -27,7 +27,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                     <option value="" disabled selected>Pilih Material</option>
                     @foreach ($materials as $material)
-                        <option value="{{ $material->id }}">
+                        <option value="{{ $material->id }}" data-harga="{{ $material->harga_satuan }}">
                             {{ $material->nama_material }} -
                             {{ $material->pemasok ? $material->pemasok->nama_pemasok : 'Pemasok Tidak Ditemukan' }}
                         </option>
@@ -71,6 +71,15 @@
                 @enderror
             </div>
 
+            <!-- Harga Satuan (Akan terisi otomatis) -->
+           <!-- Harga Satuan (Akan terisi otomatis) -->
+<div class="mb-4">
+    <label for="harga_satuan" class="block text-gray-700 text-sm font-bold mb-2">Harga Satuan</label>
+    <input type="number" id="harga_satuan" name="harga_satuan" value="{{ old('harga_satuan') }}" class="form-input mt-1 block w-full" readonly>
+</div>
+
+
+
             <!-- Tombol Simpan -->
             <button type="submit"
                     class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
@@ -79,6 +88,14 @@
         </form>
 
     </div>
+
+    <script>
+       document.getElementById('material_id').addEventListener('change', function () {
+    var hargaSatuan = this.options[this.selectedIndex].getAttribute('data-harga');
+    document.getElementById('harga_satuan').value = hargaSatuan ? hargaSatuan : '';
+});
+
+    </script>
 </body>
 
 </html>

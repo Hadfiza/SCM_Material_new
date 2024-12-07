@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nama_material', 255);
             $table->integer('stok');
-            $table->decimal('harga_satuan', 10, 2);
-            $table->string('jenis_material', 100);
             // $table->unsignedBigInteger('proyek_id'); // Relasi ke proyek
             // $table->unsignedBigInteger('detailproyek_id'); // Relasi ke detail_proyek
             $table->unsignedBigInteger('pengiriman_id'); // Relasi ke detail_proyek

@@ -14,9 +14,10 @@ class MaterialProyek extends Model
     protected $fillable = [
         'nama_material',
         'stok',
-        'harga_satuan',
-        'jenis_material',
-        'pemasok_id'
+        'order_id',
+        'pengiriman_id',
+        'material_id',
+
     ];
 
     // Relasi ke tabel Pengiriman
@@ -30,6 +31,11 @@ class MaterialProyek extends Model
     {
         return $this->belongsTo(OrderMaterial::class, 'order_id');
     }
+    public function materialPemasok()
+    {
+        return $this->belongsTo(MaterialPemasok::class, 'material_id');
+    }
+
 
     public function Proyek()
     {

@@ -72,6 +72,18 @@
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
+<!-- Harga Satuan -->
+<!-- Harga Satuan -->
+<div class="mb-4">
+    <label for="harga_satuan" class="block text-gray-700 font-bold mb-2">Harga Satuan:</label>
+    <input type="text" name="harga_satuan" id="harga_satuan"
+           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+           value="{{ old('harga_satuan', $order->harga_satuan) }}" readonly>
+    @error('harga_satuan')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
 
             <!-- Tombol Simpan -->
             <button type="submit"
