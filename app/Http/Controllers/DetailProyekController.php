@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use App\Models\Kontrak;
 use App\Models\DetailProyek;
+use App\Models\MaterialProyek;
 use Illuminate\Http\Request;
 
 class DetailProyekController extends Controller
@@ -28,12 +29,12 @@ class DetailProyekController extends Controller
      */
     public function create()
     {
-        $material = Material::all(); // Mengambil semua data dari tabel 'materials'
+        $material = MaterialProyek::all(); // Mengambil semua data dari tabel 'materials'
         $kontrak = Kontrak::all();   // Mengambil semua data dari tabel 'kontraks'
-    
+
         return view('admin.detail_proyek.create', compact('material', 'kontrak'));
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -48,9 +49,9 @@ class DetailProyekController extends Controller
             'jumlah_digunakan' => 'required|integer',
             'tanggal_digunakan' => 'required|date',
             'keterangan' => 'required|string',
-            'biaya_penggunaan' => 'required', 
+            'biaya_penggunaan' => 'required',
         ]);
-    
+
 
         DetailProyek::create($request->all());
 
@@ -86,13 +87,13 @@ class DetailProyekController extends Controller
             'jumlah_digunakan' => 'required|intiger',
             'tanggal_digunakan' => 'required|date',
             'keterangan' => 'required|string',
-            'biaya_penggunaan' => 'required', 
+            'biaya_penggunaan' => 'required',
         ]);
 
     // Cari berdasarkan ID
     $detail_proyek = DetailProyek::findOrFail($id);
 
-    // Update data 
+    // Update data
     $detail_proyek->update([
         'material_id' => $validated['material_id'],
         'proyek_id' => $validated['proyek_id'],

@@ -49,6 +49,7 @@ class ProyekController extends Controller
         return redirect()->route('admin.proyek')->with('success', 'Proyek berhasil ditambahkan');
     }
 
+
     /**
      * Display the specified resource.
      */
@@ -76,14 +77,14 @@ class ProyekController extends Controller
             'status' => 'required',
             'lokasi' => 'required',
         ]);
-    
+
         $proyek = Proyek::findOrFail($id);
         $proyek->update($validated);
-    
+
         // Pastikan redirect ke rute yang benar
         return redirect()->route('admin.proyek')->with('success', 'Update proyek sukses');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

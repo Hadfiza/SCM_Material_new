@@ -28,7 +28,7 @@
                 <select name="material_id" id="material_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                     <option value="" disabled>Pilih Material</option>
-                    @foreach ($materials as $material) <!-- Menggunakan $materials sesuai dari controller -->
+                    @foreach ($materials as $material)
                         <option value="{{ $material->id }}" {{ $material->id == $order->material_id ? 'selected' : '' }}>
                             {{ $material->nama_material }} -
                             {{ $material->pemasok ? $material->pemasok->nama_pemasok : 'Pemasok Tidak Ditemukan' }}
@@ -45,7 +45,10 @@
                 <label for="jumlah_order" class="block text-gray-700 font-bold mb-2">Jumlah Order:</label>
                 <input type="number" name="jumlah_order" id="jumlah_order"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                       value="{{ $order->jumlah_order }}" required>
+                       value="{{ old('jumlah_order', $order->jumlah_order) }}" required>
+                @error('jumlah_order')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Tanggal Order -->
@@ -53,7 +56,10 @@
                 <label for="tanggal_order" class="block text-gray-700 font-bold mb-2">Tanggal Order:</label>
                 <input type="date" name="tanggal_order" id="tanggal_order"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                       value="{{ $order->tanggal_order }}" required>
+                       value="{{ old('tanggal_order', $order->tanggal_order) }}" required>
+                @error('tanggal_order')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Keterangan -->
@@ -61,7 +67,10 @@
                 <label for="keterangan" class="block text-gray-700 font-bold mb-2">Keterangan:</label>
                 <input type="text" name="keterangan" id="keterangan"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                       value="{{ $order->keterangan }}" required>
+                       value="{{ old('keterangan', $order->keterangan) }}" required>
+                @error('keterangan')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Tombol Simpan -->

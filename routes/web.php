@@ -183,13 +183,15 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::put('/admin/kontrak/{id}', [KontrakController::class, 'update'])->name('admin.kontrak.update');
     Route::delete('/admin/kontrak/{id}', [KontrakController::class, 'destroy'])->name('admin.kontrak.destroy');
 
-
+    Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+        // Rute untuk menyimpan material proyek setelah pengiriman selesai
+        Route::post('material/store-from-order/{orderMaterialId}', [MaterialProyekController::class, 'storeFromOrder'])->name('material.storeFromOrder');
+    });
 
 });
 
 
-Route::get('/material-proyek', [MaterialProyekController::class, 'index'])->name('admin.material_proyek.index');
-Route::get('/material-proyek/{id}', [MaterialProyekController::class, 'show'])->name('admin.material_proyek.show');
+
 
 // =============================================
 // =                Route USER                 =

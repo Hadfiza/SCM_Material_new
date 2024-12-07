@@ -174,6 +174,8 @@
               <i class="bi bi-file-earmark-text pe-2"></i> <span>Proyek</span>
             </a>
           </li>
+
+
           <li class="nav-item">
             <a class="nav-link {{ Request::is('') ? 'active' : '' }} ps-4" href="#">
             <i class="bi bi-gear pe-2"></i> <span>Settings</span>
@@ -235,6 +237,7 @@
                 <i class="bi bi-graph-up pe-2"></i>Proyek
               </a>
             </li>
+           
 
             <li class="nav-item">
               <a class="nav-link" href="{{route('profile.edit')}}">

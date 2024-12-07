@@ -18,7 +18,7 @@
             <div class="mb-3">
                 <input type="hidden" class="form-control" id="id_material" name="id_material" value="" required>
             </div>
-    
+
             <div class="mb-3">
                 <label for="nama_proyek" class="form-label">Nama Proyek</label><br>
                 <input type="text" class="form-control" id="nama_proyek" name="nama_proyek" value="{{ $proyek->nama_proyek }}" required>
@@ -32,22 +32,19 @@
                     <option value="tertunda" {{ $proyek->status == 'tertunda' ? 'selected' : '' }}>Tertunda</option>
                 </select>
             </div>
-    
+
             <div class="mb-3">
                 <label for="lokasi" class="form-label">Lokasi</label><br>
                 <input type="text" name="lokasi" id="lokasi" class="form-control" value="{{ $proyek->lokasi }}" required>
             </div>
 
-            <div class="mb-3">
-                <label for="stok" class="form-label">Stok</label><br>
-                <input type="number" name="stok" id="stok" class="form-control" value="{{ $proyek->stok }}" required>
-            </div>
+         
 
             <div class="mb-3">
                 <input type="submit" value="Update" class="btn btn-warning form-control" name="submit">
             </div>
         </form>
       </div>
-    </div>       
+    </div>
   </div>
-@endsection 
+@endsection

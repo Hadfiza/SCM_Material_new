@@ -134,7 +134,11 @@ class OrderMaterialController extends Controller
             'jumlah_order' => $validated['jumlah_order'],
             'tanggal_order' => $validated['tanggal_order'],
             'keterangan' => $validated['keterangan'],
+            'nama_material' => $material->nama_material,
+            'nama_pemasok' => $material->pemasok->nama_pemasok,
         ]);
+
+
 
         return redirect()->route('admin.order')->with('success', 'Order Material berhasil diupdate.');
     }

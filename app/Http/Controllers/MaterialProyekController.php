@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MaterialProyek;
 use App\Models\Pengiriman;
-use App\Models\MaterialPemasok;
+use App\Models\OrderMaterial;
 use Illuminate\Http\Request;
 
 class MaterialProyekController extends Controller
@@ -12,10 +12,13 @@ class MaterialProyekController extends Controller
     public function index()
     {
         // Ambil data material proyek
-        $materialProyeks = MaterialProyek::all();
+        $materialProyek = MaterialProyek::all();
+        $orderMaterials = OrderMaterial::all(); // Pastikan ini sesuai dengan yang dibutuhkan
 
-        return view('admin.material_proyek.index', compact('materialProyeks'));
+        // Kirimkan data ke tampilan
+        return view('admin.material_proyek.index', compact('materialProyeks','orderMaterials'));
     }
+
 
     public function show($id)
     {
@@ -24,31 +27,34 @@ class MaterialProyekController extends Controller
 
         return view('admin.material_proyek.show', compact('materialProyek'));
     }
+
     /**
      * Simpan material proyek setelah pengiriman selesai
      */
-    public function storeFromPengiriman($pengirimanId)
+    public function storeFromOrder($orderMaterialId)
     {
-        // Ambil pengiriman berdasarkan ID
-        $pengiriman = Pengiriman::findOrFail($pengirimanId);
+        // Pastikan order material ada
+        $orderMaterial = OrderMaterial::findOrFail($orderMaterialId);  // ID yang diteruskan harus valid
+
+        // Ambil pengiriman terkait dengan order material
+        $pengiriman = $orderMaterial->pengiriman;
 
         // Pastikan pengiriman sudah selesai
         if ($pengiriman->status !== 'selesai') {
             return back()->with('error', 'Pengiriman belum selesai.');
         }
 
-        // Ambil material dari pemasok yang terkait dengan pengiriman
-        $materialPemasok = $pengiriman->materialPemasok;
-
-        // Simpan material ke proyek
-        $materialProyek = MaterialProyek::create([
-            'nama_material' => $materialPemasok->nama_material,
-            'stok' => $materialPemasok->stok,
-            'harga_satuan' => $materialPemasok->harga_satuan,
-            'jenis_material' => $materialPemasok->jenis_material,
+        // Simpan material ke proyek menggunakan data order material
+        MaterialProyek::create([
+            'nama_material' => $orderMaterial->material->nama_material,
+            'stok' => $orderMaterial->jumlah_order,
+            'harga_satuan' => $orderMaterial->material->harga_satuan,
+            'jenis_material' => $orderMaterial->material->jenis_material,
             'pengiriman_id' => $pengiriman->id,
         ]);
 
         return redirect()->route('admin.material.index')->with('success', 'Material Proyek berhasil ditambahkan.');
     }
+
+
 }

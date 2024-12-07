@@ -15,7 +15,7 @@ class Proyek extends Model
         'nama_proyek',
         'lokasi',
         'status',
-
+        'material_id'
     ];
 
     // public function kontrak()
@@ -30,6 +30,6 @@ class Proyek extends Model
 
     public function MaterialProyek()
     {
-        return $this->belongsTo(MaterialProyek::class, 'material_id');
+        return $this->hasMany(MaterialProyek::class, 'material_id');
     }
 }

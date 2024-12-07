@@ -28,12 +28,12 @@ class MaterialProyek extends Model
     // Relasi ke tabel OrderMaterial
     public function orderMaterials()
     {
-        return $this->hasMany(OrderMaterial::class, 'material_id');
+        return $this->belongsTo(OrderMaterial::class, 'order_id');
     }
 
     public function Proyek()
     {
-        return $this->hasMany(Proyek::class, 'proyek_id');
+        return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
     public function DetailProyek()
