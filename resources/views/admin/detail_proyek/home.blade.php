@@ -4,6 +4,13 @@
 @section('content')
 <div class="py-12">
 
+    <!-- Tombol untuk kembali ke halaman sebelumnya -->
+    <p>
+        <a href="{{ route('admin.proyek') }}" class="btn btn-secondary">
+            Kembali
+        </a>
+    </p>
+
     <!-- Tombol untuk menambahkan proyek-->
     <p>
         <a href="{{ route('admin.detail_proyek.create') }}" class="btn btn-primary">

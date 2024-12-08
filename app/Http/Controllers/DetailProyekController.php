@@ -24,12 +24,10 @@ class DetailProyekController extends Controller
      */
     public function create()
     {
-        // Ambil data dari MaterialProyek dan Kontrak
-        $material_proyek = MaterialProyek::all(); // Mengambil semua data material_proyek
-        $kontrak = Kontrak::all();   // Mengambil semua data kontrak
+        $material_proyek = MaterialProyek::all();
+        $kontrak = Kontrak::all();
 
-        // Proyek ID dapat berasal dari session atau database jika diperlukan
-        $proyek_id = 1; // Misalnya, id proyek yang sedang aktif. Sesuaikan sesuai kebutuhan.
+        $proyek_id = 1;
 
         return view('admin.detail_proyek.create', compact('material_proyek', 'kontrak', 'proyek_id'));
     }
@@ -48,17 +46,23 @@ class DetailProyekController extends Controller
             'keterangan' => 'required|string',
         ]);
 
-        // Mengambil harga_satuan dari material yang dipilih
         $material = MaterialProyek::findOrFail($request->material_id);
 
-        // Menghitung biaya_penggunaan
+        if ($material->stok < $request->jumlah_digunakan) {
+            return redirect()->back()->with('error', 'Stok tidak mencukupi!');
+        }
+
         $biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
 
-        // Menambahkan biaya_penggunaan ke dalam data yang akan disimpan
         $validated['biaya_penggunaan'] = $biaya_penggunaan;
 
-        // Simpan detail proyek dengan data yang divalidasi
+        $validated['nama_material'] = $material->nama_material;
+
         DetailProyek::create($validated);
+
+        // Kurangi stok setelah penyimpanan detail proyek
+        $material->stok -= $request->jumlah_digunakan;
+        $material->save();
 
         return redirect()->route('admin.detail_proyek')->with('success', 'Detail Proyek berhasil ditambahkan');
     }
@@ -92,15 +96,15 @@ class DetailProyekController extends Controller
         // Cari berdasarkan ID
         $detail_proyek = DetailProyek::findOrFail($id);
 
-        // Ambil harga_satuan dari material yang dipilih
+        // Ambil harga_satuan dan nama_material dari material yang dipilih
         $material = MaterialProyek::findOrFail($request->material_id);
 
         // Hitung biaya_penggunaan baru
-       // Menghitung biaya_penggunaan
-$biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
+        $biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
 
-// Menambahkan biaya_penggunaan ke dalam data yang akan disimpan
-$validated['biaya_penggunaan'] = $biaya_penggunaan;
+        // Menambahkan biaya_penggunaan dan nama_material ke dalam data yang akan disimpan
+        $validated['biaya_penggunaan'] = $biaya_penggunaan;
+        $validated['nama_material'] = $material->nama_material;
 
         // Update data
         $detail_proyek->update($validated);
