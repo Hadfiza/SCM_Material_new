@@ -10,7 +10,7 @@
     <div>
         <!-- Search -->
         <div class="nav-search d-flex flex-row justify-content-between mt-3 mb-2">
-            <div>
+            <div class="d-flex flex-row gap-2">
                 <a href="{{ route('admin.proyek.create') }}" class="btn btn-success"><i class="bi bi-plus-lg me-2"></i>Tambah</a>
             </div>
             <form action="">
@@ -20,6 +20,7 @@
                 </div>
             </form>
         </div>
+
         <!-- Proyek Card -->
         <div class="row g-2">
             @foreach ($proyek as $item)
@@ -42,8 +43,8 @@
                                 </div>
                                 <a href="{{ route('admin.detail_proyek', $item->id) }}" class="btn btn-outline-secondary btn-sm">view <i class="bi bi-arrow-right text-dark"></i></a>
                             </div>
-                            <!-- Tautan ke Material Proyek -->
-                            <a href="{{ route('admin.material.storeFromOrder', $item->id) }}" class="btn btn-primary btn-sm mt-2">Material Proyek</a>
+                            <!-- Tombol Material Proyek harus berada di dalam loop -->
+                            <a href="{{ route('material_proyek.index', $item->id) }}" class="btn btn-primary btn-sm mt-2">Material Proyek</a>
                         </div>
                     </div>
                 </div>

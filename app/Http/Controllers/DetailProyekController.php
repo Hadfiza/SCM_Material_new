@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Material;
+use App\Models\MaterialProyek;
 use App\Models\Kontrak;
 use App\Models\DetailProyek;
-use App\Models\MaterialProyek;
 use Illuminate\Http\Request;
 
 class DetailProyekController extends Controller
@@ -15,55 +14,53 @@ class DetailProyekController extends Controller
      */
     public function index()
     {
-        $detail_proyek = DetailProyek::all();
+        // Ambil semua data DetailProyek bersama dengan relasi materialProyek
+        $detail_proyek = DetailProyek::with('materialProyek')->get();
         return view('admin.detail_proyek.home', compact('detail_proyek'));
     }
-
-    // public function indekForUser(){
-    //     $detail_proyek = DetailProyek::all();
-    //     return view('user.detail_proyek.index', compact('detail_proyek'));
-    // }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $material = MaterialProyek::all(); // Mengambil semua data dari tabel 'materials'
-        $kontrak = Kontrak::all();   // Mengambil semua data dari tabel 'kontraks'
+        // Ambil data dari MaterialProyek dan Kontrak
+        $material_proyek = MaterialProyek::all(); // Mengambil semua data material_proyek
+        $kontrak = Kontrak::all();   // Mengambil semua data kontrak
 
-        return view('admin.detail_proyek.create', compact('material', 'kontrak'));
+        // Proyek ID dapat berasal dari session atau database jika diperlukan
+        $proyek_id = 1; // Misalnya, id proyek yang sedang aktif. Sesuaikan sesuai kebutuhan.
+
+        return view('admin.detail_proyek.create', compact('material_proyek', 'kontrak', 'proyek_id'));
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
-        // dd($request->all());
+        // Validasi input
         $validated = $request->validate([
             'material_id' => 'required',
             'proyek_id' => 'required',
             'jumlah_digunakan' => 'required|integer',
             'tanggal_digunakan' => 'required|date',
             'keterangan' => 'required|string',
-            'biaya_penggunaan' => 'required',
         ]);
 
+        // Mengambil harga_satuan dari material yang dipilih
+        $material = MaterialProyek::findOrFail($request->material_id);
 
-        DetailProyek::create($request->all());
+        // Menghitung biaya_penggunaan
+        $biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
+
+        // Menambahkan biaya_penggunaan ke dalam data yang akan disimpan
+        $validated['biaya_penggunaan'] = $biaya_penggunaan;
+
+        // Simpan detail proyek dengan data yang divalidasi
+        DetailProyek::create($validated);
 
         return redirect()->route('admin.detail_proyek')->with('success', 'Detail Proyek berhasil ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(DetailProyek $detailProyek)
-    {
-        //
     }
 
     /**
@@ -72,7 +69,10 @@ class DetailProyekController extends Controller
     public function edit($id)
     {
         $detail_proyek = DetailProyek::findOrFail($id);
-        return view('admin.detail_proyek.edit', compact('detail_proyek'));
+        $material_proyek = MaterialProyek::all();
+        $kontrak = Kontrak::all();
+
+        return view('admin.detail_proyek.edit', compact('detail_proyek', 'material_proyek', 'kontrak'));
     }
 
     /**
@@ -80,45 +80,47 @@ class DetailProyekController extends Controller
      */
     public function update(Request $request, $id)
     {
-         // Validasi input
+        // Validasi input
         $validated = $request->validate([
             'material_id' => 'required',
             'proyek_id' => 'required',
-            'jumlah_digunakan' => 'required|intiger',
+            'jumlah_digunakan' => 'required|integer',
             'tanggal_digunakan' => 'required|date',
             'keterangan' => 'required|string',
-            'biaya_penggunaan' => 'required',
         ]);
 
-    // Cari berdasarkan ID
-    $detail_proyek = DetailProyek::findOrFail($id);
+        // Cari berdasarkan ID
+        $detail_proyek = DetailProyek::findOrFail($id);
 
-    // Update data
-    $detail_proyek->update([
-        'material_id' => $validated['material_id'],
-        'proyek_id' => $validated['proyek_id'],
-        'jumlah_digunakan' => $validated['jumlah_digunakan'],
-        'tanggal_digunakan' => $validated['tanggal_digunakan'],
-        'keterangan' => $validated['keterangan'],
-        'biaya_penggunaan' => $validated['biaya_penggunaan'],
-    ]);
+        // Ambil harga_satuan dari material yang dipilih
+        $material = MaterialProyek::findOrFail($request->material_id);
 
-    // Redirect ke halaman index dengan pesan sukses
-    return redirect()->route('admin.detail_proyek')->with('success', 'Detail Proyek updated successfully!');
+        // Hitung biaya_penggunaan baru
+       // Menghitung biaya_penggunaan
+$biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
+
+// Menambahkan biaya_penggunaan ke dalam data yang akan disimpan
+$validated['biaya_penggunaan'] = $biaya_penggunaan;
+
+        // Update data
+        $detail_proyek->update($validated);
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('admin.detail_proyek')->with('success', 'Detail Proyek updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DetailProyek $detailProyek, int $id)
+    public function destroy($id)
     {
-    // Cari berdasarkan ID
-    $detail_proyek = DetailProyek::findOrFail($id);
+        // Cari berdasarkan ID
+        $detail_proyek = DetailProyek::findOrFail($id);
 
-    // Hapus pengiriman
-    $detail_proyek->delete();
+        // Hapus data
+        $detail_proyek->delete();
 
-    // Redirect kembali ke halaman pengiriman dengan pesan sukses
-    return redirect()->route('admin.detail_proyek')->with('success', 'Detail proyek berhasil dihapus!');
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('admin.detail_proyek')->with('success', 'Detail proyek berhasil dihapus!');
     }
 }

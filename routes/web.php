@@ -183,13 +183,12 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::put('/admin/kontrak/{id}', [KontrakController::class, 'update'])->name('admin.kontrak.update');
     Route::delete('/admin/kontrak/{id}', [KontrakController::class, 'destroy'])->name('admin.kontrak.destroy');
 
+    Route::prefix('material-proyek')->group(function () {
+        Route::get('/', [MaterialProyekController::class, 'index'])->name('material_proyek.index');
+        Route::post('/sync', [MaterialProyekController::class, 'syncFromPengiriman'])->name('material_proyek.sync');
+    });
 
 });
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Route untuk store material dari order jika pengiriman selesai
-    Route::get('material/store-from-order/{orderMaterialId}', [MaterialProyekController::class, 'storeFromOrder'])->name('material.storeFromOrder');
-});
-
 
 
 // =============================================

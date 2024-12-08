@@ -14,33 +14,28 @@ class PengirimanController extends Controller
      */
     public function index()
     {
-        // Mengambil pengiriman beserta order material terkait menggunakan 'orderMaterial'
         $pengiriman = Pengiriman::with('orderMaterial')->get();
         return view('admin.pengiriman.home', compact('pengiriman'));
     }
 
+    /**
+     * Menampilkan daftar pengiriman untuk pengguna.
+     */
     public function indexForUser()
-{
-    // Ambil semua data pengiriman dari database
-    $pengiriman = Pengiriman::all();
-
-    // Hitung jumlah pengiriman
-    $totalPengiriman = $pengiriman->count(); // Menggunakan count() dari koleksi untuk menghitung jumlah
-
-    // Kirim data pengiriman dan jumlah pengiriman ke view
-    return view('user.pengiriman.index', compact('pengiriman', 'totalPengiriman'));
-}
+    {
+        $pengiriman = Pengiriman::all();
+        $totalPengiriman = $pengiriman->count();
+        return view('user.pengiriman.index', compact('pengiriman', 'totalPengiriman'));
+    }
 
     /**
      * Menampilkan form untuk membuat pengiriman baru.
      */
     public function create()
     {
-        // Ambil data order material yang belum dibuat pengirimannya
         $orderMaterials = OrderMaterial::whereDoesntHave('pengiriman')->get();
         return view('admin.pengiriman.create', compact('orderMaterials'));
     }
-
 
     /**
      * Menyimpan data pengiriman baru.
@@ -54,13 +49,7 @@ class PengirimanController extends Controller
             'status_pengiriman' => 'required|string|max:255',
         ]);
 
-        // Simpan data pengiriman
-        Pengiriman::create([
-            'order_id' => $validated['order_id'],
-            'tanggal_kirim' => $validated['tanggal_kirim'],
-            'tanggal_selesai' => $validated['tanggal_selesai'],
-            'status_pengiriman' => $validated['status_pengiriman'],
-        ]);
+        Pengiriman::create($validated);
 
         return redirect()->route('admin.pengiriman')->with('success', 'Pengiriman berhasil ditambahkan.');
     }
@@ -89,24 +78,8 @@ class PengirimanController extends Controller
 
         $pengiriman = Pengiriman::findOrFail($id);
 
-        // Cek jika status pengiriman diubah menjadi 'selesai'
-        $statusSebelumnya = $pengiriman->status_pengiriman;
-        $statusBaru = $validated['status_pengiriman'];
-
-        // Jika status baru adalah 'selesai' dan status sebelumnya tidak
-        if ($statusBaru == 'selesai' && $statusSebelumnya != 'selesai') {
-            // Cari OrderMaterial terkait dan hapus
-            $orderMaterial = OrderMaterial::findOrFail($validated['order_id']);
-            $orderMaterial->delete(); // Hapus data OrderMaterial
-        }
-
-        // Perbarui data pengiriman
-        $pengiriman->update([
-            'order_id' => $validated['order_id'],
-            'tanggal_kirim' => $validated['tanggal_kirim'],
-            'tanggal_selesai' => $validated['tanggal_selesai'],
-            'status_pengiriman' => $validated['status_pengiriman'],
-        ]);
+        // Update data pengiriman
+        $pengiriman->update($validated);
 
         return redirect()->route('admin.pengiriman')->with('success', 'Pengiriman berhasil diperbarui.');
     }

@@ -15,6 +15,7 @@ class MaterialProyek extends Model
         'nama_material',
         'stok',
         'order_id',
+        'harga_satuan',
         'pengiriman_id',
         'material_id',
 
@@ -42,8 +43,9 @@ class MaterialProyek extends Model
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function DetailProyek()
+    public function detailProyek()
     {
-        return $this->hasMany(DetailProyek::class, 'detail_proyek_id');
+        return $this->hasMany(DetailProyek::class, 'material_id');
     }
+
 }

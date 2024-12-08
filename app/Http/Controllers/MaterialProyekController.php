@@ -2,44 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\MaterialProyek;
 use App\Models\Pengiriman;
 use App\Models\OrderMaterial;
-use Illuminate\Http\Request;
 
 class MaterialProyekController extends Controller
 {
+    /**
+     * Menampilkan daftar material proyek.
+     */
     public function index()
-{
-    // Ambil data material proyek dengan relasi pengiriman
-    $materialProyeks = MaterialProyek::with('pengiriman')->get();
-    return view('admin.material.index', compact('materialProyeks'));
-}
+    {
+        $materials = MaterialProyek::all(); // Ambil semua data material proyek
+        return view('admin.material_proyek.index', compact('materials'));
+    }
 
     /**
-     * Store material from order if pengiriman status is selesai
+     * Proses sinkronisasi data berdasarkan pengiriman yang selesai.
      */
-    public function storeFromOrder($orderMaterialId)
-    {
-        // Cari order material berdasarkan ID
-        $orderMaterial = OrderMaterial::findOrFail($orderMaterialId);
+    public function syncFromPengiriman()
+{
+    // Ambil data pengiriman yang berstatus selesai
+    $pengirimanSelesai = Pengiriman::where('status_pengiriman', 'selesai')->get();
 
-        // Cari pengiriman yang berhubungan dengan order material
-        $pengiriman = Pengiriman::findOrFail($orderMaterial->pengiriman_id);
+    foreach ($pengirimanSelesai as $pengiriman) {
+        // Cek apakah data material_proyek sudah ada berdasarkan pengiriman_id
+        $existingMaterial = MaterialProyek::where('pengiriman_id', $pengiriman->id)->first();
 
-        // Cek status pengiriman
-        if ($pengiriman->status_pengiriman === 'selesai') {
-            // Simpan data ke tabel material_proyek
-            MaterialProyek::create([
-                'nama_material' => $orderMaterial->nama_material,
-                'stok' => $orderMaterial->stok,
-                'pengiriman_id' => $orderMaterial->pengiriman_id,
-                'material_id' => $orderMaterial->material_id, // Menggunakan material_id yang ada
-            ]);
+        if (!$existingMaterial) {
+            // Ambil data order_material terkait dari pengiriman
+            $orderMaterial = $pengiriman->orderMaterial; // Relasi ke tabel order_material
 
-            return redirect()->route('admin.material.index')->with('success', 'Material berhasil ditambahkan ke proyek');
+            if ($orderMaterial) {
+                // Tambahkan data ke material_proyek
+                MaterialProyek::create([
+                    'nama_material' => $orderMaterial->nama_material,
+                    'stok' => $orderMaterial->jumlah_order, // Gunakan jumlah_order, bukan stok
+                    'harga_satuan' => $orderMaterial->harga_satuan,
+                    'pengiriman_id' => $pengiriman->id,
+                    'material_id' => null, // Sesuaikan jika diperlukan
+                ]);
+            }
         }
-
-        return redirect()->route('admin.material.index')->with('error', 'Pengiriman belum selesai');
     }
+
+    return redirect()->route('material_proyek.index')->with('success', 'Data material proyek berhasil disinkronisasi!');
+}
+
 }

@@ -18,7 +18,6 @@ class DetailProyek extends Model
         'tanggal_digunakan',
         'keterangan',
         'biaya_penggunaan',
-
     ];
 
     public function proyek()
@@ -26,13 +25,13 @@ class DetailProyek extends Model
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function MaterialProyek()
+    public function materialProyek()
     {
         return $this->belongsTo(MaterialProyek::class, 'material_id');
     }
 
-    public function Laporan()
+    public function laporan()
     {
-        return $this->hasMany(Laporan::class, 'laporan_id');
+        return $this->hasMany(Laporan::class, 'detail_proyek_id');
     }
 }

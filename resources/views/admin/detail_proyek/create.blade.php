@@ -4,73 +4,73 @@
 
 @section('content')
 <div class="py-4">
-    <div class="container-fluid px-4"> <!-- Menggunakan container-fluid untuk mengurangi padding -->
+    <div class="container-fluid px-4">
         <div class="row justify-content-center">
-            <div class="col-12"> <!-- Full width form -->
-                <div class="card shadow-sm">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow-lg">
                     <div class="card-header bg-primary text-white">
                         <h4 class="mb-0">Tambah Detail Proyek</h4>
                     </div>
                     <div class="card-body">
+                        <!-- Tombol Back dengan ikon -->
                         <p>
                             <a href="{{ route('admin.detail_proyek') }}" class="btn btn-secondary mb-3">
-                                Kembali
+                                <i class="bi bi-arrow-left-circle"></i> Kembali
                             </a>
                         </p>
-                        
+
                         <form action="{{ route('admin.detail_proyek.store') }}" method="POST">
                             @csrf
 
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="material_id" class="form-label">Material</label>
-                                    <select name="material_id" id="material_id" class="form-control">
-                                        <option value="">Pilih Material</option>
-                                        @foreach ($material as $item)
-                                            <option value="{{ $item->id }}">{{ $item->keterangan }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="kontrak_id" class="form-label">Kontrak</label>
-                                    <select name="kontrak_id" id="kontrak_id" class="form-control">
-                                        <option value="">Pilih Kontrak</option>
-                                        @foreach ($kontrak as $item)
-                                            <option value="{{ $item->id }}">{{ $item->deskripsi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <input type="hidden" name="proyek_id" value="{{ $proyek_id }}">
+
+                            <div class="mb-4">
+                                <label for="material_id" class="form-label">Material:</label>
+                                <select name="material_id" id="material_id"
+                                        class="form-control form-control-lg @error('material_id') is-invalid @enderror" required>
+                                    <option value="" disabled selected>Pilih Material</option>
+                                    @foreach ($material_proyek as $material)
+                                        <option value="{{ $material->id }}" data-harga="{{ $material->harga_satuan }}">
+                                            {{ $material->nama_material }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('material_id')
+                                    <p class="text-danger text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="lokasi" class="form-label">Lokasi Proyek</label>
-                                    <input type="text" id="lokasi" name="lokasi" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="jumlah_digunakan" class="form-label">Jumlah Penggunaan Material</label>
-                                    <input type="number" id="jumlah_digunakan" name="jumlah_digunakan" class="form-control" required>
-                                </div>
+                            <div class="mb-4">
+                                <label for="jumlah_digunakan" class="form-label">Jumlah Penggunaan Material:</label>
+                                <input type="number" id="jumlah_digunakan" name="jumlah_digunakan" class="form-control form-control-lg @error('jumlah_digunakan') is-invalid @enderror" required>
+                                @error('jumlah_digunakan')
+                                    <p class="text-danger text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="tanggal_digunakan" class="form-label">Tanggal Penggunaan Material</label>
-                                    <input type="date" id="tanggal_digunakan" name="tanggal_digunakan" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="biaya_penggunaan" class="form-label">Biaya Penggunaan</label>
-                                    <input type="number" id="biaya_penggunaan" name="biaya_penggunaan" class="form-control" required>
-                                </div>
+                            <div class="mb-4">
+                                <label for="tanggal_digunakan" class="form-label">Tanggal Penggunaan Material:</label>
+                                <input type="date" id="tanggal_digunakan" name="tanggal_digunakan" class="form-control form-control-lg @error('tanggal_digunakan') is-invalid @enderror" required>
+                                @error('tanggal_digunakan')
+                                    <p class="text-danger text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="keterangan" class="form-label">Keterangan</label>
-                                <input type="text" id="keterangan" name="keterangan" class="form-control" required>
+                            <div class="mb-4">
+                                <label for="keterangan" class="form-label">Keterangan:</label>
+                                <input type="text" id="keterangan" name="keterangan" class="form-control form-control-lg @error('keterangan') is-invalid @enderror" required>
+                                @error('keterangan')
+                                    <p class="text-danger text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="biaya_penggunaan" class="form-label">Biaya Penggunaan:</label>
+                                <input type="text" id="biaya_penggunaan" class="form-control form-control-lg" disabled>
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Tambah Detail Proyek</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Tambah Detail Proyek</button>
                             </div>
                         </form>
                     </div>
@@ -79,4 +79,23 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+<script>
+    // Menambahkan event listener pada dropdown material dan jumlah digunakan
+    document.getElementById('material_id').addEventListener('change', updateBiaya);
+    document.getElementById('jumlah_digunakan').addEventListener('input', updateBiaya);
+
+    function updateBiaya() {
+        var materialId = document.getElementById('material_id').value;
+        var hargaSatuan = document.querySelector(`#material_id option[value="${materialId}"]`).getAttribute('data-harga');
+        var jumlahDigunakan = document.getElementById('jumlah_digunakan').value;
+
+        if (hargaSatuan && jumlahDigunakan) {
+            var biaya = hargaSatuan * jumlahDigunakan;
+            document.getElementById('biaya_penggunaan').value = 'Rp ' + biaya.toLocaleString();
+        }
+    }
+</script>
+@endsection
 @endsection
