@@ -17,10 +17,11 @@ class DetailProyekController extends Controller
         // Ambil data DetailProyek berdasarkan proyek_id bersama relasi materialProyek
         $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)
             ->with('materialProyek')
-            ->get();
+            ->paginate(10); // Menambahkan paginate untuk membatasi 10 data per halaman
 
         return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id'));
     }
+
 
 
 

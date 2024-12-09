@@ -9,7 +9,7 @@
                 <h1>Update Detail Proyek</h1>
                 <hr>
 
-                <form action="{{ route('admin.detail_proyek.update', $detail_proyek->id) }}" method="POST">
+                <form action="{{ route('admin.detail_proyek.update', ['proyek_id' => $detail_proyek->proyek_id, 'id' => $detail_proyek->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -35,7 +35,7 @@
 
                     <div class="mb-3">
                         <label for="tanggal_digunakan" class="form-label">Tanggal Digunakan</label>
-                        <input class="form-control" id="tanggal_digunakan" name="tanggal_digunakan" value="{{ $detail_proyek->tanggal_digunakan }}">
+                        <input class="form-control" id="tanggal_digunakan" name="tanggal_digunakan" type="date"  value="{{ $detail_proyek->tanggal_digunakan }}">
                     </div>
 
                     <div class="mb-3">

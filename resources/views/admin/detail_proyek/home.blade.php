@@ -9,7 +9,6 @@
         <a href="{{ route('admin.proyek', ['proyek_id' => $proyek_id]) }}" class="btn btn-secondary">
             Kembali
         </a>
-
     </p>
 
     <!-- Tombol untuk menambahkan proyek-->
@@ -17,7 +16,6 @@
         <a href="{{ route('admin.detail_proyek.create', ['proyek_id' => $proyek_id]) }}" class="btn btn-primary">
             Tambah Detail Proyek
         </a>
-
     </p>
 
     <!-- Daftar Proyek -->
@@ -57,12 +55,19 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
-
-
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination Links -->
+    <div class="mt-4">
+        @if ($detail_proyek->count() > 0)
+            {{ $detail_proyek->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
+        @endif
+    </div>
+
+
 </div>
 @endsection
