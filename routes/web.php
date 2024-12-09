@@ -146,6 +146,7 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     Route::get('/admin/{proyek_id}/detail_proyek/{id}/edit', [DetailProyekController::class, 'edit'])->name('admin.detail_proyek.edit');
     Route::put('/admin/{proyek_id}/detail_proyek/{id}', [DetailProyekController::class, 'update'])->name('admin.detail_proyek.update');
     Route::delete('/admin/{proyek_id}/detail_proyek/{id}', [DetailProyekController::class, 'destroy'])->name('admin.detail_proyek.destroy');
+    Route::get('admin/{proyek_id}/detail_proyek/export/pdf', [DetailProyekController::class, 'exportPDF'])->name('admin.detail_proyek.exportPDF');
 
     // =============================================
     // =           Route Material                  =

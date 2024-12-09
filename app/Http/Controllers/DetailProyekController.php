@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MaterialProyek;
 use App\Models\Kontrak;
 use App\Models\DetailProyek;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class DetailProyekController extends Controller
@@ -19,7 +20,9 @@ class DetailProyekController extends Controller
             ->with('materialProyek')
             ->paginate(10); // Menambahkan paginate untuk membatasi 10 data per halaman
 
-        return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id'));
+            $start_date = request()->get('start_date', null);
+    $end_date = request()->get('end_date', null);
+        return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id','start_date', 'end_date'));
     }
 
 
@@ -122,4 +125,29 @@ class DetailProyekController extends Controller
         return redirect()->route('admin.detail_proyek.index', $proyek_id)->with('success', 'Detail proyek berhasil dihapus!');
     }
 
+
+// Method untuk ekspor ke PDF
+public function exportPDF($proyek_id, Request $request)
+{
+    // Dapatkan parameter tanggal
+    $start_date = $request->get('start_date');
+    $end_date = $request->get('end_date');
+
+    // Filter berdasarkan rentang tanggal jika ada
+    $query = DetailProyek::where('proyek_id', $proyek_id)->with('materialProyek');
+
+    if ($start_date && $end_date) {
+        $query->whereBetween('tanggal_digunakan', [$start_date, $end_date]);
+    }
+
+    $detail_proyek = $query->get(); // Ambil data
+
+    // Buat PDF menggunakan view dan data yang ada
+    $pdf = Pdf::loadView('admin.detail_proyek.pdf', compact('detail_proyek', 'proyek_id', 'start_date', 'end_date'));
+
+    // Tentukan nama file PDF yang dinamis berdasarkan proyek ID dan tanggal
+    $fileName = 'detail_proyek_' . $proyek_id . '_' . $start_date . '_to_' . $end_date . '.pdf';
+
+    return $pdf->download($fileName);
+}
 }
