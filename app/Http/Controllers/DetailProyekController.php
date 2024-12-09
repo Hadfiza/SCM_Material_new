@@ -1,0 +1,124 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\MaterialProyek;
+use App\Models\Kontrak;
+use App\Models\DetailProyek;
+use Illuminate\Http\Request;
+
+class DetailProyekController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index($proyek_id)
+    {
+        // Ambil data DetailProyek berdasarkan proyek_id bersama relasi materialProyek
+        $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)
+            ->with('materialProyek')
+            ->get();
+
+        return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id'));
+    }
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create($proyek_id)
+    {
+        $material_proyek = MaterialProyek::all();
+        $kontrak = Kontrak::all();
+
+        return view('admin.detail_proyek.create', compact('material_proyek', 'kontrak', 'proyek_id'));
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, $proyek_id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'material_id' => 'required',
+            'jumlah_digunakan' => 'required|integer',
+            'tanggal_digunakan' => 'required|date',
+            'keterangan' => 'required|string',
+        ]);
+
+        $material = MaterialProyek::findOrFail($request->material_id);
+
+        if ($material->stok < $request->jumlah_digunakan) {
+            return redirect()->back()->with('error', 'Stok tidak mencukupi!');
+        }
+
+        $biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
+
+        // Tambahkan proyek_id ke dalam data yang akan disimpan
+        $validated['proyek_id'] = $proyek_id;
+        $validated['biaya_penggunaan'] = $biaya_penggunaan;
+        $validated['nama_material'] = $material->nama_material;
+
+        DetailProyek::create($validated);
+
+        // Kurangi stok setelah penyimpanan detail proyek
+        $material->stok -= $request->jumlah_digunakan;
+        $material->save();
+
+        return redirect()->route('admin.detail_proyek.index', $proyek_id)->with('success', 'Detail Proyek berhasil ditambahkan');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($proyek_id, $id)
+    {
+        $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)->findOrFail($id);
+        $material_proyek = MaterialProyek::all();
+        $kontrak = Kontrak::all();
+
+        return view('admin.detail_proyek.edit', compact('detail_proyek', 'material_proyek', 'kontrak', 'proyek_id'));
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $proyek_id, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'material_id' => 'required',
+            'jumlah_digunakan' => 'required|integer',
+            'tanggal_digunakan' => 'required|date',
+            'keterangan' => 'required|string',
+        ]);
+
+        $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)->findOrFail($id);
+        $material = MaterialProyek::findOrFail($request->material_id);
+
+        $biaya_penggunaan = $material->harga_satuan * $request->jumlah_digunakan;
+
+        $validated['biaya_penggunaan'] = $biaya_penggunaan;
+        $validated['nama_material'] = $material->nama_material;
+
+        $detail_proyek->update($validated);
+
+        return redirect()->route('admin.detail_proyek.index', $proyek_id)->with('success', 'Detail Proyek updated successfully!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($proyek_id, $id)
+    {
+        $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)->findOrFail($id);
+        $detail_proyek->delete();
+
+        return redirect()->route('admin.detail_proyek.index', $proyek_id)->with('success', 'Detail proyek berhasil dihapus!');
+    }
+
+}

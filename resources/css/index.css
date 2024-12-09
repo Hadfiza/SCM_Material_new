@@ -1,0 +1,44 @@
+.navbar-content>a {
+    text-decoration: none;
+    text-align: center;
+}
+.navbar-content>a:hover {
+    border-bottom: 1px solid #654321;
+}
+
+.underline-tabs .nav-link {
+    position: relative;
+    font-weight: 500; 
+    color: #333;
+    border: none;
+    background-color: transparent;
+    transition: color 0.3s ease;
+}
+
+.underline-tabs .nav-link:hover,
+.underline-tabs .nav-link.active {
+    color: #000 !important;
+}
+
+.underline-tabs .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform: scaleX(0);
+    transform-origin: center;
+}
+
+.underline-tabs .nav-link:hover::after,
+.underline-tabs .nav-link.active::after {
+    background-color: #654321;
+    transform: scaleX(1);
+}
+
+#nav-tabContent span{
+    color: #cb8742;
+}
