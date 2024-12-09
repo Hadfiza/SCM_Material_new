@@ -18,7 +18,9 @@
         </a>
     </p>
 <p>
-    <a href="{{ route('admin.detail_proyek.exportPDF', $proyek_id) }}?start_date={{ $start_date }}&end_date={{ $end_date }}" class="btn btn-danger">Ekspor ke PDF</a>
+    <p>
+        <a href="{{ route('admin.detail_proyek.exportPDF', $proyek_id) }}?start_date={{ request()->get('start_date') }}&end_date={{ request()->get('end_date') }}" class="btn btn-danger">Ekspor ke PDF</a>
+    </p>
 
 </p>
 

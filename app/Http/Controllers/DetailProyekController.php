@@ -15,15 +15,26 @@ class DetailProyekController extends Controller
      */
     public function index($proyek_id)
     {
-        // Ambil data DetailProyek berdasarkan proyek_id bersama relasi materialProyek
-        $detail_proyek = DetailProyek::where('proyek_id', $proyek_id)
-            ->with('materialProyek')
-            ->paginate(10); // Menambahkan paginate untuk membatasi 10 data per halaman
+        // Ambil parameter start_date dan end_date dari request
+        $start_date = request()->get('start_date', null);
+        $end_date = request()->get('end_date', null);
 
-            $start_date = request()->get('start_date', null);
-    $end_date = request()->get('end_date', null);
-        return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id','start_date', 'end_date'));
+        // Query dasar untuk mengambil data DetailProyek berdasarkan proyek_id
+        $query = DetailProyek::where('proyek_id', $proyek_id)
+            ->with('materialProyek');
+
+        // Jika start_date dan end_date ada, filter data berdasarkan tanggal
+        if ($start_date && $end_date) {
+            $query->whereBetween('tanggal_digunakan', [$start_date, $end_date]);
+        }
+
+        // Ambil data dengan pagination
+        $detail_proyek = $query->paginate(10); // Menambahkan paginate untuk membatasi 10 data per halaman
+
+        // Mengembalikan view dengan data yang diperlukan
+        return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id', 'start_date', 'end_date'));
     }
+
 
 
 
@@ -150,4 +161,5 @@ public function exportPDF($proyek_id, Request $request)
 
     return $pdf->download($fileName);
 }
+
 }
