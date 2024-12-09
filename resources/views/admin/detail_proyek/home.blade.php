@@ -17,13 +17,9 @@
             Tambah Detail Proyek
         </a>
     </p>
-<p>
-    <p>
-        <a href="{{ route('admin.detail_proyek.exportPDF', $proyek_id) }}?start_date={{ request()->get('start_date') }}&end_date={{ request()->get('end_date') }}" class="btn btn-danger">Ekspor ke PDF</a>
-    </p>
 
-</p>
 
+<!-- Form Filter Tanggal -->
 <form action="{{ route('admin.detail_proyek.index', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
     <label for="start_date">Dari:</label>
     <input type="date" name="start_date" value="{{ request()->get('start_date') }}" class="form-control mx-2">
@@ -32,6 +28,14 @@
     <input type="date" name="end_date" value="{{ request()->get('end_date') }}" class="form-control mx-2">
 
     <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<!-- Form Ekspor PDF -->
+<form action="{{ route('admin.detail_proyek.exportPDF', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
+    <label for="pdf_name">Nama File PDF:</label>
+    <input type="text" name="pdf_name" class="form-control mx-2" placeholder="Nama file PDF" required>
+
+    <button type="submit" class="btn btn-danger">Ekspor ke PDF</button>
 </form>
 
     <!-- Daftar Proyek -->

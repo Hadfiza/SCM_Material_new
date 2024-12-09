@@ -140,9 +140,10 @@ class DetailProyekController extends Controller
 // Method untuk ekspor ke PDF
 public function exportPDF($proyek_id, Request $request)
 {
-    // Dapatkan parameter tanggal
+    // Dapatkan parameter tanggal dan nama file
     $start_date = $request->get('start_date');
     $end_date = $request->get('end_date');
+    $pdf_name = $request->get('pdf_name', 'detail_proyek'); // Default name if not provided
 
     // Filter berdasarkan rentang tanggal jika ada
     $query = DetailProyek::where('proyek_id', $proyek_id)->with('materialProyek');
@@ -153,13 +154,15 @@ public function exportPDF($proyek_id, Request $request)
 
     $detail_proyek = $query->get(); // Ambil data
 
+    // Tentukan nama file PDF
+    $pdf_filename = $pdf_name . '.pdf'; // Gunakan nama yang diberikan oleh pengguna
+
     // Buat PDF menggunakan view dan data yang ada
     $pdf = Pdf::loadView('admin.detail_proyek.pdf', compact('detail_proyek', 'proyek_id', 'start_date', 'end_date'));
 
-    // Tentukan nama file PDF yang dinamis berdasarkan proyek ID dan tanggal
-    $fileName = 'detail_proyek_' . $proyek_id . '_' . $start_date . '_to_' . $end_date . '.pdf';
-
-    return $pdf->download($fileName);
+    // Unduh file dengan nama yang diberikan oleh pengguna
+    return $pdf->download($pdf_filename);
 }
+
 
 }
