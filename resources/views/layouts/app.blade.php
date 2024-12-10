@@ -160,7 +160,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="{{ route('admin.material') }}">
+            <a class="nav-link {{ Request::is('material*') ? 'active' : '' }} ps-4" href="{{ route('user.material') }}">
               <i class="bi bi-box-seam pe-2"></i> <span>Material Pemasok</span>
             </a>
           </li>
@@ -218,7 +218,7 @@
 
             <!-- Dropdown Material -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('user.material') }}">
                 <i class="bi bi-box-seam pe-2"></i> Material
               </a>
             </li>

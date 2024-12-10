@@ -16,6 +16,12 @@ class MaterialPemasokController extends Controller
     public function index()
     {
         $materials = MaterialPemasok::all();
+        return view('user.material.home', compact('materials'));
+    }
+
+    public function indexForAdmin()
+    {
+        $materials = MaterialPemasok::all();
         return view('admin.material.home', compact('materials'));
     }
 
@@ -25,7 +31,7 @@ class MaterialPemasokController extends Controller
     public function create()
     {
         $pemasok = Pemasok::all(['id', 'nama_pemasok']);
-        return view('admin.material.create', compact('pemasok'));
+        return view('user.material.create', compact('pemasok'));
     }
 
     /**
@@ -45,7 +51,7 @@ class MaterialPemasokController extends Controller
 
         MaterialPemasok::create($request->all());
 
-        return redirect()->route('admin.material')->with('success', 'Material berhasil ditambahkan');
+        return redirect()->route('user.material')->with('success', 'Material berhasil ditambahkan');
     }
 
     /**
@@ -63,7 +69,7 @@ class MaterialPemasokController extends Controller
     {
         //
         $material = MaterialPemasok::find($id);
-        return view('admin.material.edit', compact('material'));
+        return view('user.material.edit', compact('material'));
     }
 
     /**
@@ -86,7 +92,7 @@ class MaterialPemasokController extends Controller
         $material->update($validated);
     
         // Redirect ke halaman daftar material dengan pesan sukses
-        return redirect()->route('admin.material')->with('success', 'Material berhasil diupdate');
+        return redirect()->route('user.material')->with('success', 'Material berhasil diupdate');
     }
     
 
@@ -102,6 +108,6 @@ class MaterialPemasokController extends Controller
         $material->delete();
 
         // Redirect kembali ke halaman pengiriman dengan pesan sukses
-        return redirect()->route('admin.material')->with('success', 'Material berhasil dihapus!');
+        return redirect()->route('user.material')->with('success', 'Material berhasil dihapus!');
     }
 }

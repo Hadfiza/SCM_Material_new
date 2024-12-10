@@ -153,12 +153,8 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
     // =============================================
 
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/material', [MaterialPemasokController::class, 'index'])->name('admin.material');
-    Route::get('/admin/material/create', [MaterialPemasokController::class, 'create'])->name('admin.material.create');
-    Route::post('admin/material/store', [MaterialPemasokController::class, 'store'])->name('admin.material.store');
-    Route::get('/admin/material/{id}/edit', [MaterialPemasokController::class, 'edit'])->name('admin.material.edit');
-    Route::put('/admin/material/{id}', [MaterialPemasokController::class, 'update'])->name('admin.material.update');
-    Route::delete('/admin/material/{id}', [MaterialPemasokController::class, 'destroy'])->name('admin.material.destroy');
+    Route::get('/admin/material', [MaterialPemasokController::class, 'indexForAdmin'])->name('admin.material');
+
 
     // =============================================
     // =           Route Order Material            =
@@ -213,6 +209,9 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
 Route::middleware('auth')->group(function () {
     Route::get('/pengiriman', [PengirimanController::class, 'indexForUser'])->name('pengiriman.index');
     Route::get('/proyek', [ProyekController::class, 'indexForUser'])->name('proyek.index');
+    Route::get('/order', [OrderMaterialController::class, 'indexForUser'])->name('user.order');
+
+
 
     Route::get('/pemasok', [PemasokController::class, 'index'])->name('user.pemasok');
     Route::get('/pemasok/create', [PemasokController::class, 'create'])->name('user.pemasok.create');
@@ -220,6 +219,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/pemasok/{id}/edit', [PemasokController::class, 'edit'])->name('user.pemasok.edit');
     Route::put('/pemasok/{id}', [PemasokController::class, 'update'])->name('user.pemasok.update');
     Route::delete('/pemasok/{id}', [PemasokController::class, 'destroy'])->name('user.pemasok.destroy');
+
+    Route::get('/material', [MaterialPemasokController::class, 'index'])->name('user.material');
+    Route::get('/material/create', [MaterialPemasokController::class, 'create'])->name('user.material.create');
+    Route::post('/material/store', [MaterialPemasokController::class, 'store'])->name('user.material.store');
+    Route::get('/material/{id}/edit', [MaterialPemasokController::class, 'edit'])->name('user.material.edit');
+    Route::put('/material/{id}', [MaterialPemasokController::class, 'update'])->name('user.material.update');
+    Route::delete('/material/{id}', [MaterialPemasokController::class, 'destroy'])->name('user.material.destroy');
 });
 
 

@@ -19,6 +19,14 @@ class OrderMaterialController extends Controller
         return view('admin.order.home', compact('orders'));
     }
 
+    public function indexForUser()
+    {
+        // Mengambil semua order material beserta relasi material dan pemasoknya
+        $orders = OrderMaterial::with('materialPemasok')->get();
+
+        return view('user.order.home', compact('orders'));
+    }
+
 
 
     /**
