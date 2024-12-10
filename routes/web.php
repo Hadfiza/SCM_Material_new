@@ -36,13 +36,6 @@ Route::middleware('auth')->group(function () {
     // Rute pengiriman untuk pengguna biasa (hanya melihat pengiriman)
     Route::get('/pengiriman', [PengirimanController::class, 'indexForUser'])->name('pengiriman.index');
 
-    // Rute pemasok untuk pengguna (user hanya bisa melihat daftar pemasok dan menambah pemasok)
-    Route::prefix('pemasok')->group(function () {
-        Route::get('/', [PemasokController::class, 'index'])->name('pemasok.index'); // Menambahkan rute untuk melihat daftar pemasok
-        Route::get('/create', [PemasokController::class, 'create'])->name('pemasok.create');
-        Route::post('/', [PemasokController::class, 'store'])->name('pemasok.store');
-    });
-
     // Rute kontrak (user hanya bisa melihat kontrak)
     Route::get('/kontrak', [KontrakController::class, 'index'])->name('kontrak.index');
 });
