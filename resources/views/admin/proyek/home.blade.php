@@ -18,11 +18,15 @@
                 Proyek
             </a>
             @if(isset($proyek) && $proyek->isNotEmpty())
-                <a href="{{ route('material_proyek.index', $proyek->first()->id) }}" class="text-xl font-medium text-black hover:text-gray-700" style="text-decoration: none; transition: color 0.3s;">
+                <a href="{{ route('material_proyek.index', $proyek->first()->id) }}" class="me-4 text-xl font-medium text-black hover:text-gray-700" style="text-decoration: none; transition: color 0.3s;">
                     Material Proyek
                 </a>
             @endif
+            <a href="{{ route('admin.order.trends') }}" class="ms-2 text-xl font-medium text-black hover:text-gray-700" style="text-decoration: none; transition: color 0.3s;">
+                Trends Order Material
+            </a>
         </div>
+        
         
 
         <!-- Tombol Tambah -->

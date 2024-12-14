@@ -43,10 +43,17 @@
                 <label for="kontak" class="block text-gray-700 font-bold mb-2">Kontak:</label>
                 <input type="text" name="kontak" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" value="{{ old('kontak', $pemasok->kontak) }}" required>
             </div>
+
             <div class="mb-4">
-                <label for="kontrak_id" class="block text-gray-700 font-bold mb-2">Kontrak ID:</label>
-                <input type="text" name="kontrak_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" value="{{ old('kontrak_id', $pemasok->kontrak_id) }}" required>
+                <label for="kontrak_id" class="form-label">Kontrak</label>
+                <select name="kontrak_id" id="kontrak_id" class="form-control">
+                    <option value="">Pilih Kontrak</option>
+                    @foreach ($kontrak as $kontrak)
+                        <option value="{{ $kontrak->id }}">{{ $kontrak->deskripsi }}</option>
+                    @endforeach
+                </select>
             </div>
+
             <div class="mb-4">
                 <label for="rating_pemasok" class="block text-gray-700 font-bold mb-2">Rating Pemasok:</label>
                 <input type="number" name="rating_pemasok" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" value="{{ old('rating_pemasok', $pemasok->rating_pemasok) }}" min="0" max="10" required>

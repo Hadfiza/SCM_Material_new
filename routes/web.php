@@ -192,6 +192,9 @@ Route::middleware(['auth', 'admin'])->group(callback: function () {
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 
+    Route::get('/admin/order/trends', [OrderMaterialController::class, 'trends'])->name('admin.order.trends');
+
+
 });
 
 

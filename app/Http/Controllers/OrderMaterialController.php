@@ -172,4 +172,19 @@ class OrderMaterialController extends Controller
             return redirect()->route('admin.order')->with('error', 'Order material tidak ditemukan.');
         }
     }
+
+
+
+    public function trends()
+    {
+        // Hitung total order per material dan urutkan dari jumlah terbanyak
+        $trends = OrderMaterial::select('nama_material', \DB::raw('SUM(jumlah_order) as total_order'))
+            ->groupBy('nama_material')
+            ->orderByDesc('total_order')
+            ->get();
+            
+
+        return view('admin.order.trends', compact('trends'));
+    }
+
 }

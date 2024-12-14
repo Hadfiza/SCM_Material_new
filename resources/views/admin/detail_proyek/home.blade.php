@@ -32,11 +32,15 @@
 
 <!-- Form Ekspor PDF -->
 <form action="{{ route('admin.detail_proyek.exportPDF', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
+    <input type="hidden" name="start_date" value="{{ request()->get('start_date') }}">
+    <input type="hidden" name="end_date" value="{{ request()->get('end_date') }}">
+
     <label for="pdf_name">Nama File PDF:</label>
     <input type="text" name="pdf_name" class="form-control mx-2" placeholder="Nama file PDF" required>
 
     <button type="submit" class="btn btn-danger">Ekspor ke PDF</button>
 </form>
+
 
     <!-- Daftar Proyek -->
     <h3 class="mt-4">Daftar Detail Proyek</h3>

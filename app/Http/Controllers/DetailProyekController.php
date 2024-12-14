@@ -15,23 +15,17 @@ class DetailProyekController extends Controller
      */
     public function index($proyek_id)
     {
-        // Ambil parameter start_date dan end_date dari request
         $start_date = request()->get('start_date', null);
         $end_date = request()->get('end_date', null);
 
-        // Query dasar untuk mengambil data DetailProyek berdasarkan proyek_id
-        $query = DetailProyek::where('proyek_id', $proyek_id)
-            ->with('materialProyek');
+        $query = DetailProyek::where('proyek_id', $proyek_id)->with('materialProyek');
 
-        // Jika start_date dan end_date ada, filter data berdasarkan tanggal
         if ($start_date && $end_date) {
             $query->whereBetween('tanggal_digunakan', [$start_date, $end_date]);
         }
 
-        // Ambil data dengan pagination
-        $detail_proyek = $query->paginate(10); // Menambahkan paginate untuk membatasi 10 data per halaman
+        $detail_proyek = $query->paginate(10);
 
-        // Mengembalikan view dengan data yang diperlukan
         return view('admin.detail_proyek.home', compact('detail_proyek', 'proyek_id', 'start_date', 'end_date'));
     }
 
@@ -140,27 +134,41 @@ class DetailProyekController extends Controller
 // Method untuk ekspor ke PDF
 public function exportPDF($proyek_id, Request $request)
 {
-    // Dapatkan parameter tanggal dan nama file
     $start_date = $request->get('start_date');
     $end_date = $request->get('end_date');
-    $pdf_name = $request->get('pdf_name', 'detail_proyek'); // Default name if not provided
+    $pdf_name = $request->get('pdf_name', 'detail_proyek');
 
-    // Filter berdasarkan rentang tanggal jika ada
+    // Validasi input tanggal
+    if (($start_date && !$end_date) || (!$start_date && $end_date)) {
+        return redirect()->back()->with('error', 'Harap isi kedua tanggal (start_date dan end_date) untuk filter.');
+    }
+
     $query = DetailProyek::where('proyek_id', $proyek_id)->with('materialProyek');
 
+    // Filter berdasarkan tanggal jika tersedia
     if ($start_date && $end_date) {
         $query->whereBetween('tanggal_digunakan', [$start_date, $end_date]);
     }
 
-    $detail_proyek = $query->get(); // Ambil data
+    $detail_proyek = $query->get();
 
-    // Tentukan nama file PDF
-    $pdf_filename = $pdf_name . '.pdf'; // Gunakan nama yang diberikan oleh pengguna
+    // Cek jika data kosong
+    if ($detail_proyek->isEmpty()) {
+        return redirect()->back()->with('error', 'Tidak ada data untuk rentang tanggal yang dipilih.');
+    }
 
-    // Buat PDF menggunakan view dan data yang ada
-    $pdf = Pdf::loadView('admin.detail_proyek.pdf', compact('detail_proyek', 'proyek_id', 'start_date', 'end_date'));
+    // Buat nama file PDF
+    $pdf_filename = $pdf_name . '.pdf';
 
-    // Unduh file dengan nama yang diberikan oleh pengguna
+    // Generate PDF menggunakan view
+    $pdf = Pdf::loadView('admin.detail_proyek.pdf', [
+        'detail_proyek' => $detail_proyek,
+        'proyek_id' => $proyek_id,
+        'start_date' => $start_date,
+        'end_date' => $end_date
+    ]);
+
+    // Return file PDF untuk diunduh
     return $pdf->download($pdf_filename);
 }
 
