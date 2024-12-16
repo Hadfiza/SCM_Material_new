@@ -1,5 +1,6 @@
 @extends('admin.app')
 @section('title', 'Daftar Detail Proyek')
+@section('navbar','Detail Proyek')
 
 @section('content')
 <div class="py-12">
@@ -11,46 +12,56 @@
         </a>
     </p>
 
-    <!-- Tombol untuk menambahkan proyek-->
-    <p>
-        <a href="{{ route('admin.detail_proyek.create', ['proyek_id' => $proyek_id]) }}" class="btn btn-primary">
-            Tambah Detail Proyek
-        </a>
-    </p>
+    <div class="d-flex flex-row justify-content-between">
+        <!-- Tombol untuk menambahkan proyek-->
+         <div>
+             <a href="{{ route('admin.detail_proyek.create', ['proyek_id' => $proyek_id]) }}" class="btn btn-primary">
+                 Tambah Detail Proyek
+             </a>
+         </div>
 
-
-<!-- Form Filter Tanggal -->
-<form action="{{ route('admin.detail_proyek.index', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
-    <label for="start_date">Dari:</label>
-    <input type="date" name="start_date" value="{{ request()->get('start_date') }}" class="form-control mx-2">
-
-    <label for="end_date">Hingga:</label>
-    <input type="date" name="end_date" value="{{ request()->get('end_date') }}" class="form-control mx-2">
-
-    <button type="submit" class="btn btn-primary">Filter</button>
-</form>
-
-<!-- Form Ekspor PDF -->
-<form action="{{ route('admin.detail_proyek.exportPDF', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
-    <input type="hidden" name="start_date" value="{{ request()->get('start_date') }}">
-    <input type="hidden" name="end_date" value="{{ request()->get('end_date') }}">
-
-    <label for="pdf_name">Nama File PDF:</label>
-    <input type="text" name="pdf_name" class="form-control mx-2" placeholder="Nama file PDF" required>
-
-    <button type="submit" class="btn btn-danger">Ekspor ke PDF</button>
-</form>
+        <!-- Form Filter Tanggal -->
+         <div class="mb-3">
+             <form action="{{ route('admin.detail_proyek.index', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline d-flex flex-row">
+                <div class="d-flex flex-row me-2">
+                    <label for="start_date" class="mt-2">Dari:</label>
+                    <input type="date" name="start_date" value="{{ request()->get('start_date') }}" class="form-control mx-2">
+                </div>
+                <div class="d-flex flex-row">
+                    <label for="end_date" class="mt-2">Hingga:</label>
+                    <input type="date" name="end_date" value="{{ request()->get('end_date') }}" class="form-control mx-2">
+                </div>
+                 <button type="submit" class="btn btn-primary">Filter</button>
+             </form>
+         </div>
+    </div>
 
 
     <!-- Daftar Proyek -->
-    <h3 class="mt-4">Daftar Detail Proyek</h3>
+     <div class="d-flex flex-row justify-content-between mt-4">
+        <div>
+            <h3>Daftar Detail Proyek</h3>
+        </div>
+         <!-- Form Ekspor PDF -->
+        <div class="mb-2">
+            <form action="{{ route('admin.detail_proyek.exportPDF', ['proyek_id' => $proyek_id]) }}" method="GET" class="form-inline">
+                <input type="hidden" name="start_date" value="{{ request()->get('start_date') }}">
+                <input type="hidden" name="end_date" value="{{ request()->get('end_date') }}">
+    
+                <div class="d-flex flex-row justify-content-between">
+                    <button type="submit" class="btn btn-danger text-nowrap">Ekspor ke PDF</button>
+                </div>
+            </form>
+        </div>
+     </div>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Material</th>
                 <th>Proyek ID</th>
+                <th>Material</th>
                 <th>Jumlah Digunakan</th>
+                <th>Harga Satuan</th>
                 <th>Tanggal Digunakan</th>
                 <th>Keterangan</th>
                 <th>Biaya Penggunaan</th>
@@ -62,9 +73,10 @@
                 <tr>
                     <td>{{ $item->id }}</td>
                     <!-- Menampilkan nama_material yang terkait -->
-                    <td>{{ $item->materialProyek->nama_material ?? 'Tidak ada material' }}</td>
                     <td>{{ $item->proyek_id }} - {{ $item->proyek->nama_proyek ?? 'Tidak ada nama proyek' }}</td>
+                    <td>{{ $item->materialProyek->nama_material ?? 'Tidak ada material' }}</td>
                     <td>{{ $item->jumlah_digunakan }}</td>
+                    <td>{{ $item->materialProyek->harga_satuan ?? 'Tidak ada harga satuan' }}</td>
                     <td>{{ $item->tanggal_digunakan }}</td>
                     <td>{{ $item->keterangan }}</td>
                     <td>{{ $item->biaya_penggunaan }}</td>

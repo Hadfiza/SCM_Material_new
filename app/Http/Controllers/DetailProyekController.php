@@ -7,6 +7,8 @@ use App\Models\Kontrak;
 use App\Models\DetailProyek;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Proyek;
 
 class DetailProyekController extends Controller
 {
@@ -136,7 +138,6 @@ public function exportPDF($proyek_id, Request $request)
 {
     $start_date = $request->get('start_date');
     $end_date = $request->get('end_date');
-    $pdf_name = $request->get('pdf_name', 'detail_proyek');
 
     // Validasi input tanggal
     if (($start_date && !$end_date) || (!$start_date && $end_date)) {
@@ -157,20 +158,29 @@ public function exportPDF($proyek_id, Request $request)
         return redirect()->back()->with('error', 'Tidak ada data untuk rentang tanggal yang dipilih.');
     }
 
-    // Buat nama file PDF
-    $pdf_filename = $pdf_name . '.pdf';
+    // Ambil nama proyek dari database
+    $proyek = Proyek::find($proyek_id);
+
+    if (!$proyek) {
+        return redirect()->back()->with('error', 'Proyek tidak ditemukan.');
+    }
+
+    // Buat nama file PDF berdasarkan nama proyek
+    $pdf_filename = Str::slug($proyek->nama_proyek, '_') . '.pdf';
 
     // Generate PDF menggunakan view
     $pdf = Pdf::loadView('admin.detail_proyek.pdf', [
         'detail_proyek' => $detail_proyek,
         'proyek_id' => $proyek_id,
         'start_date' => $start_date,
-        'end_date' => $end_date
+        'end_date' => $end_date,
+        'proyek' => $proyek
     ]);
 
     // Return file PDF untuk diunduh
     return $pdf->download($pdf_filename);
 }
+
 
 
 }

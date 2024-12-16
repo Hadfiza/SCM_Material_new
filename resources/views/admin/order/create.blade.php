@@ -38,6 +38,7 @@
                 @enderror
             </div>
 
+            
             <!-- Jumlah Order -->
             <div class="mb-4">
                 <label for="jumlah_order" class="block text-gray-700 font-bold mb-2">Jumlah Order:</label>
@@ -49,6 +50,14 @@
                 @enderror
             </div>
 
+            <div class="mb-4">
+                <label for="satuan" class="block text-gray-700 form-label">Satuan</label>
+                <select id="satuan" name="satuan" class="w-full p-2 border rounded form-control" required>
+                    <option value="unit">Unit</option>
+                    <option value="box">Box</option>
+                </select>
+            </div>
+            
             <!-- Tanggal Order -->
             <div class="mb-4">
                 <label for="tanggal_order" class="block text-gray-700 font-bold mb-2">Tanggal Order:</label>

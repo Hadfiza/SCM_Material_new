@@ -16,7 +16,7 @@
         <div class="bg-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-start space-x-8 border-b-2 border-gray-200">
-                    <a href="{{ route('admin.material') }}" class="py-4 px-1 border-b-2 border-black font-medium text-gray-900">Material</a>
+                    <a href="{{ route('admin.material') }}" class="py-4 px-1 border-b-2 border-black font-medium text-gray-900">Material Pemasok</a>
                     <a href="{{ route('admin.order') }}" class="py-4 px-1 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">Order</a>
                 </div>
             </div>

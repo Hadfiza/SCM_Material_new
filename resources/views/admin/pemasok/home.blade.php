@@ -44,7 +44,7 @@
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Nama Pemasok</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Alamat</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Kontak</th>
-                        <th class="py-3 px-4 uppercase font-semibold text-sm">Kontrak ID</th>
+                        <th class="py-3 px-4 uppercase font-semibold text-sm">Nama Kontrak</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Rating Pemasok</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Aksi</th>
                     </tr>
@@ -56,7 +56,7 @@
                             <td class="py-3 px-4">{{ $pemasok->nama_pemasok }}</td>
                             <td class="py-3 px-4">{{ $pemasok->alamat }}</td>
                             <td class="py-3 px-4">{{ $pemasok->kontak }}</td>
-                            <td class="py-3 px-4">{{ $pemasok->kontrak_id }}</td>
+                            <td class="py-3 px-4">{{ $pemasok->kontrak->deskripsi ?? 'Tidak Ada Kontrak' }}</td>
                             <td class="py-3 px-4">{{ $pemasok->rating_pemasok }}</td>
                             <td class="py-3 px-4 flex space-x-2">
                                 <!-- Aksi Edit dan Hapus -->

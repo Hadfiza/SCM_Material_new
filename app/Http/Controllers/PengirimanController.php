@@ -43,13 +43,27 @@ class PengirimanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'order_id' => 'required|integer|exists:order_material,id',
+            'nomor_order' => 'required|string|exists:order_material,nomor_order', // Ubah dari order_id ke nomor_order
             'tanggal_kirim' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_kirim',
             'status_pengiriman' => 'required|string|max:255',
         ]);
 
-        Pengiriman::create($validated);
+        // Cari OrderMaterial berdasarkan nomor_order
+        $orderMaterial = OrderMaterial::where('nomor_order', $validated['nomor_order'])->first();
+        if (!$orderMaterial) {
+            return redirect()->back()->withErrors(['nomor_order' => 'Nomor order tidak ditemukan.']);
+        }
+
+        // Tambahkan data pengiriman
+        Pengiriman::create([
+            'order_id' => $orderMaterial->id, // Simpan ID order
+            'tanggal_kirim' => $validated['tanggal_kirim'],
+            'tanggal_selesai' => $validated['tanggal_selesai'],
+            'status_pengiriman' => $validated['status_pengiriman'],
+        ]);
+
+
 
         return redirect()->route('admin.pengiriman')->with('success', 'Pengiriman berhasil ditambahkan.');
     }
@@ -69,20 +83,34 @@ class PengirimanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validasi input
         $validated = $request->validate([
-            'order_id' => 'required|integer|exists:order_material,id',
+            'nomor_order' => 'required|string|exists:order_material,nomor_order', // Ubah dari order_id ke nomor_order
             'tanggal_kirim' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_kirim',
             'status_pengiriman' => 'required|string|max:255',
         ]);
-
+    
+        // Cari pengiriman berdasarkan ID
         $pengiriman = Pengiriman::findOrFail($id);
-
+    
+        // Cari OrderMaterial berdasarkan nomor_order
+        $orderMaterial = OrderMaterial::where('nomor_order', $validated['nomor_order'])->first();
+        if (!$orderMaterial) {
+            return redirect()->back()->withErrors(['nomor_order' => 'Nomor order tidak ditemukan.']);
+        }
+    
         // Update data pengiriman
-        $pengiriman->update($validated);
-
+        $pengiriman->update([
+            'order_id' => $orderMaterial->id, // Update ID order berdasarkan nomor_order
+            'tanggal_kirim' => $validated['tanggal_kirim'],
+            'tanggal_selesai' => $validated['tanggal_selesai'],
+            'status_pengiriman' => $validated['status_pengiriman'],
+        ]);
+    
         return redirect()->route('admin.pengiriman')->with('success', 'Pengiriman berhasil diperbarui.');
     }
+    
 
     /**
      * Menghapus data pengiriman.

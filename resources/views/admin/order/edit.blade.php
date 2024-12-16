@@ -51,6 +51,15 @@
                 @enderror
             </div>
 
+            <div class="mb-3">
+                <label for="satuan" class="form-label">Satuan</label>
+                <select class="form-control" id="satuan" name="satuan" required>
+                    <option value="unit" {{ old('satuan', $order->satuan) == 'unit' ? 'selected' : '' }}>Unit</option>
+                    <option value="box" {{ old('satuan', $order->satuan) == 'box' ? 'selected' : '' }}>Box</option>
+                </select>
+            </div>
+            
+
             <!-- Tanggal Order -->
             <div class="mb-4">
                 <label for="tanggal_order" class="block text-gray-700 font-bold mb-2">Tanggal Order:</label>

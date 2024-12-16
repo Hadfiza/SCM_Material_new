@@ -35,11 +35,12 @@
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <tr class="border-b border-gray-300">
-                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Nomor Order</th>
                         <th class="py-3 px-6 text-left">Nama Material</th>
                         <th class="py-3 px-6 text-left">Nama Pemasok</th>
                         <th class="py-3 px-6 text-left">Harga Satuan</th> <!-- Tambahkan harga_satuan di sini -->
                         <th class="py-3 px-6 text-left">Jumlah Order</th>
+                        <th class="py-3 px-6 text-left">Satuan</th>
                         <th class="py-3 px-6 text-left">Tanggal Order</th>
                         <th class="py-3 px-6 text-left">Keterangan</th>
                         <th class="py-3 px-6 text-center">Aksi</th>
@@ -48,7 +49,7 @@
                 <tbody class="text-gray-600 text-sm font-light">
                     @foreach ($orders as $order)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">{{ $order->id }}</td>
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{ $order->nomor_order }}</td>
                             <!-- Menampilkan hanya ID Material -->
                             <td class="py-3 px-6 text-left">
                                 {{ $order->nama_material ?? 'Material Tidak Ditemukan' }}
@@ -60,6 +61,7 @@
                                 {{ number_format($order->harga_satuan, 0, ',', '.') }} <!-- Menampilkan harga satuan -->
                             </td>
                             <td class="py-3 px-6 text-left">{{ $order->jumlah_order }}</td>
+                            <td class="py-3 px-6 text-left">{{ $order->satuan }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->tanggal_order }}</td>
                             <td class="py-3 px-6 text-left">{{ $order->keterangan }}</td>
                             <td class="py-3 px-6 text-center">

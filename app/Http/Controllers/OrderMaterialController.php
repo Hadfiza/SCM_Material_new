@@ -48,6 +48,7 @@ class OrderMaterialController extends Controller
         $validated = $request->validate([
             'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material ada di tabel material_pemasok
             'jumlah_order' => 'required|integer',
+            'satuan' => 'required|in:unit,box', // Validasi satuan
             'tanggal_order' => 'required|date',
             'keterangan' => 'nullable|string',
             'harga_satuan' => 'required|numeric',  // Validasi harga_satuan
@@ -69,16 +70,32 @@ class OrderMaterialController extends Controller
         $material->stok -= $validated['jumlah_order'];
         $material->save();
 
+        // Generate nomor order
+        $tanggalSekarang = now()->format('Ymd'); // Format tanggal: YYYYMMDD
+        $countToday = OrderMaterial::whereDate('tanggal_order', now()->toDateString())->count();
+        $nomorOrder = 'ORD-' . $tanggalSekarang . '-' . str_pad($countToday + 1, 4, '0', STR_PAD_LEFT);
+
+        // Pastikan nomor order unik
+        while (OrderMaterial::where('nomor_order', $nomorOrder)->exists()) {
+            $countToday++;
+            $nomorOrder = 'ORD-' . $tanggalSekarang . '-' . str_pad($countToday + 1, 4, '0', STR_PAD_LEFT);
+        }
+
+
         // Simpan data order material ke database
         OrderMaterial::create([
             'material_id' => $material->id,
             'jumlah_order' => $validated['jumlah_order'],
+            'satuan' => $validated['satuan'], // Menyimpan satuan
             'tanggal_order' => $validated['tanggal_order'],
             'keterangan' => $validated['keterangan'],
             'nama_material' => $material->nama_material,  // Simpan nama material
             'nama_pemasok' => $material->pemasok->nama_pemasok,  // Simpan nama pemasok
             'harga_satuan' => $material->harga_satuan,  // Simpan harga satuan
+            'nomor_order' => $nomorOrder,
         ]);
+
+  
 
         return redirect()->route('admin.order')->with('success', 'Order Material berhasil ditambahkan dan stok material telah diperbarui.');
     }
@@ -110,6 +127,7 @@ class OrderMaterialController extends Controller
         $validated = $request->validate([
             'material_id' => 'required|exists:material_pemasok,id',  // Pastikan ID material valid
             'jumlah_order' => 'required|integer|min:1',  // Pastikan jumlah_order lebih dari 0
+            'satuan' => 'required|in:unit,box', // Validasi satuan
             'tanggal_order' => 'required|date',  // Pastikan tanggal valid
             'keterangan' => 'required|string',
             'harga_satuan' => 'required|numeric',  // Validasi harga_satuan
@@ -148,6 +166,7 @@ class OrderMaterialController extends Controller
         $order->update([
             'material_id' => $material->id,
             'jumlah_order' => $validated['jumlah_order'],
+            'satuan' => $validated['satuan'], // Update satuan
             'tanggal_order' => $validated['tanggal_order'],
             'keterangan' => $validated['keterangan'],
             'nama_material' => $material->nama_material,

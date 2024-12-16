@@ -18,12 +18,12 @@
                         @csrf
 
                         <div class="mb-4">
-                            <label for="order_id" class="block text-gray-700 form-label">Order ID</label>
-                            <select id="order_id" name="order_id" class="w-full p-2 border rounded form-control" required>
+                            <label for="nomor_order" class="block text-gray-700 form-label">Order</label>
+                            <select id="nomor_order" name="nomor_order" class="w-full p-2 border rounded form-control" required>
                                 <option value="" disabled selected>Pilih Order</option>
                                 @foreach($orderMaterials as $order)
-                                    <option value="{{ $order->id }}">
-                                        {{ $order->id }} - {{ $order->keterangan }}
+                                    <option value="{{ $order->nomor_order }}">
+                                        {{ $order->nomor_order }} - {{ $order->nama_material }}
                                     </option>
                                 @endforeach
                             </select>

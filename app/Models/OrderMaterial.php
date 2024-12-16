@@ -21,6 +21,8 @@ class OrderMaterial extends Model
         'nama_material', // Tambahkan nama_material ke dalam fillable
         'nama_pemasok',
         'harga_satuan',
+        'nomor_order',
+        'satuan',
         // Tambahkan nama_material ke dalam fillable
 
     ];

@@ -24,7 +24,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Order ID</th>
+                    <th>Nomor Order</th>
                     <th>Tanggal Kirim</th>
                     <th>Tanggal Selesai</th>
                     <th>Status Pengiriman</th>
@@ -35,7 +35,7 @@
                 @forelse ($pengiriman as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->order_id }}</td>
+                        <td>{{ $item->orderMaterial->nomor_order }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d-m-Y H:i:s') }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d-m-Y H:i:s') }}</td>
                         <td>{{ $item->status_pengiriman }}</td>
