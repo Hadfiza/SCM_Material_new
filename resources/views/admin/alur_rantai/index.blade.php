@@ -8,7 +8,7 @@
 
     <!-- Form untuk memilih bulan -->
     <form action="{{ route('admin.alur_rantai.index') }}" method="GET">
-        <label for="bulan">Pilih Bulan:</label>
+        <label for="bulan">Bulan:</label>
         <select name="bulan" id="bulan" onchange="this.form.submit()">
             <option value="1" {{ request('bulan') == '1' ? 'selected' : '' }}>Januari</option>
             <option value="2" {{ request('bulan') == '2' ? 'selected' : '' }}>Februari</option>
@@ -45,7 +45,7 @@
         labels: orderIds.map((id, index) => {
             // Menampilkan tanggal pada label x-axis bersama dengan ID order
             const date = new Date(dates[index]);
-            return `Order ${id} - ${date.toLocaleDateString()}`;
+            return `Order ${id}`;
         }), // Label berdasarkan ID ordermaterial dan tanggal order
         datasets: [{
             label: 'Jumlah Order',
